@@ -1,0 +1,36 @@
+{
+  "moblet": {
+    "label": "Lista de conteúdo",
+    "hint": "Crie uma lista de conteúdos ricos",
+    "description": "Preencha os campos abaixo para criar a lista de conteúdos"
+  },
+  "items": {
+    "label": "Lista de conteúdos",
+    "hint": "Insira os conteúdos",
+    "list_button": "Adicionar itens"
+  },
+  "title": {
+    "label": "Título",
+    "hint": "Título do conteúdo",
+    "placeholder": "O meu conteúdo"
+  },
+  "description": {
+    "label": "Conteúdo",
+    "hint": "Preencha com o conteúdo em HTML usando o editor de texto",
+    "placeholder": "<h1>Meu conteúdo</h1>\n<p>Aqui está o conteúdo</p>"
+  },
+  "listStyle": {
+    "label": "Estilo da lista",
+    "hint": "Escolha o estilo da lista de conteúdos",
+    "placeholder": "Escolha um estilo",
+    "list_type_1": "Lista padrão",
+    "list_type_2": "Lista cartão"
+  },
+  "itemStyle": {
+    "label": "Estilo do item",
+    "hint": "Escolha o estilo do conteúdos",
+    "placeholder": "Escolha um estilo",
+    "item_type_1": "Detalhe padrão",
+    "item_type_2": "Detalhe cartão"
+  }
+}

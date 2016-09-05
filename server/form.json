@@ -1,0 +1,57 @@
+{
+  "fields": [
+    {
+      "name": "news",
+      "type": "list",
+      "has-details": false,
+      "fields": [
+        {
+          "name": "date",
+          "type": "date",
+          "required": true
+        },
+        {
+          "name": "time",
+          "type": "time",
+          "required": false
+        },
+        {
+          "name": "highlight",
+          "type": "rich-text",
+          "required": true
+        },
+        {
+          "name": "link",
+          "type": "url",
+          "required": false
+        },
+        {
+          "name": "more",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "next",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "entries",
+          "type": "list",
+          "fields": [
+            {
+              "name": "content",
+              "type": "rich-text",
+              "required": true
+            },
+            {
+              "name": "link",
+              "type": "url",
+              "required": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
