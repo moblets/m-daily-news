@@ -1,36 +1,55 @@
 {
   "moblet": {
-    "label": "Lista de conteúdo",
-    "hint": "Crie uma lista de conteúdos ricos",
-    "description": "Preencha os campos abaixo para criar a lista de conteúdos"
+    "label": "Notícias diárias",
+    "hint": "Crie notícias diárias no formato de bate papo",
+    "description": "Adicione novas notícias com dia e horário para serem mostradas para seus usuários como se fosse um bate papo"
   },
-  "items": {
-    "label": "Lista de conteúdos",
-    "hint": "Insira os conteúdos",
-    "list_button": "Adicionar itens"
+  "news": {
+    "label": "Lista de notícias",
+    "hint": "Insira as notícias",
+    "list_button": "Adicionar notícia diária"
   },
-  "title": {
-    "label": "Título",
-    "hint": "Título do conteúdo",
-    "placeholder": "O meu conteúdo"
+  "date": {
+    "label": "Data",
+    "hint": "Data da notícia"
   },
-  "description": {
-    "label": "Conteúdo",
-    "hint": "Preencha com o conteúdo em HTML usando o editor de texto",
-    "placeholder": "<h1>Meu conteúdo</h1>\n<p>Aqui está o conteúdo</p>"
+  "time": {
+    "label": "Horário",
+    "hint": "Hora da notícia"
   },
-  "listStyle": {
-    "label": "Estilo da lista",
-    "hint": "Escolha o estilo da lista de conteúdos",
-    "placeholder": "Escolha um estilo",
-    "list_type_1": "Lista padrão",
-    "list_type_2": "Lista cartão"
+  "highlight": {
+    "label": "Destaque",
+    "hint": "Insira a notícia destaque",
+    "placeholder": "DESTAQUE"
   },
-  "itemStyle": {
-    "label": "Estilo do item",
-    "hint": "Escolha o estilo do conteúdos",
-    "placeholder": "Escolha um estilo",
-    "item_type_1": "Detalhe padrão",
-    "item_type_2": "Detalhe cartão"
-  }
+  "link": {
+    "label": "Link",
+    "hint": "Insira se houver um link para o destaque",
+    "placeholder": "http://noticias/meu-destaque"
+  },
+	"more": {
+		"label": "Mais",
+		"hint": "Texto para ver notícias relacionadas",
+		"placeholder": "Quero saber mais sobre isso 😮"
+	},
+	"next": {
+		"label": "Próxima",
+		"hint": "Texto para ver as próximas notícias",
+		"placeholder": "Entendi 👍 me mostre a próxima"
+	},
+	"entries": {
+		"label": "Notícias relacionadas",
+    "hint": "Insira as notícias relacionadas",
+    "list_button": "Adicionar notícia relacionada"
+	},
+	"entries_content": {
+		"label": "Notícia",
+    "hint": "Insira a notícias relacionada",
+		"placeholder": "Notícia relacionada"
+	},
+	"entries_link": {
+		"label": "Link",
+    "hint": "Insira se houver um link para a notícia",
+    "placeholder": "http://noticias/noticia-relacionada"
+	}
 }

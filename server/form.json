@@ -40,12 +40,12 @@
           "type": "list",
           "fields": [
             {
-              "name": "content",
+              "name": "entries_content",
               "type": "rich-text",
               "required": true
             },
             {
-              "name": "link",
+              "name": "entries_link",
               "type": "url",
               "required": false
             }
