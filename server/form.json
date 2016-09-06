@@ -3,7 +3,6 @@
     {
       "name": "news",
       "type": "list",
-      "has-details": false,
       "fields": [
         {
           "name": "date",
@@ -13,7 +12,6 @@
         {
           "name": "time",
           "type": "time",
-          "required": false
         },
         {
           "name": "highlight",
@@ -23,58 +21,48 @@
         {
           "name": "link",
           "type": "url",
-          "required": false
         },
         {
           "name": "more",
           "type": "text",
-          "required": false
         },
         {
           "name": "next",
           "type": "text",
           "required": true
         },
-				{
-					"name": "entries_content_1",
-					"type": "rich-text",
-					"required": true
-				},
-				{
-					"name": "entries_link_1",
-					"type": "url",
-					"required": false
-				},
-				{
-					"name": "entries_content_2",
-					"type": "rich-text",
-					"required": true
-				},
-				{
-					"name": "entries_link_2",
-					"type": "url",
-					"required": false
-				},
-				{
-					"name": "entries_content_3",
-					"type": "rich-text",
-					"required": true
-				},
-				{
-					"name": "entries_link_3",
-					"type": "url",
-					"required": false
-				},
-				{
-					"name": "entries_content_4",
-					"type": "rich-text",
-					"required": true
-				},
-				{
-					"name": "entries_link_4",
-					"type": "url",
-					"required": false
-				}
+        {
+          "name": "entries_content_1",
+          "type": "rich-text"
+        },
+        {
+          "name": "entries_link_1",
+          "type": "url",
+        },
+        {
+          "name": "entries_content_2",
+          "type": "rich-text"
+        },
+        {
+          "name": "entries_link_2",
+          "type": "url",
+        },
+        {
+          "name": "entries_content_3",
+          "type": "rich-text"
+        },
+        {
+          "name": "entries_link_3",
+          "type": "url"
+        },
+        {
+          "name": "entries_content_4",
+          "type": "rich-text"
+        },
+        {
+          "name": "entries_link_4",
+          "type": "url"
+        }
       ]
     }
   ]
