@@ -42,13 +42,43 @@
     "hint": "Insira as notícias relacionadas",
     "list_button": "Adicionar notícia relacionada"
 	},
-	"entries_content": {
-		"label": "Notícia",
-    "hint": "Insira a notícias relacionada",
-		"placeholder": "Notícia relacionada"
+	"entries_content_1": {
+		"label": "Notícia relacionada 1",
+    "hint": "Insira a notícias relacionada 1",
+		"placeholder": "Notícia relacionada 1"
 	},
-	"entries_link": {
-		"label": "Link",
+	"entries_link_1": {
+		"label": "Link notícia relacionada 1",
+    "hint": "Insira se houver um link para a notícia",
+    "placeholder": "http://noticias/noticia-relacionada"
+	},
+	"entries_content_2": {
+		"label": "Notícia relacionada 2",
+    "hint": "Insira a notícias relacionada 2",
+		"placeholder": "Notícia relacionada 2"
+	},
+	"entries_link_2": {
+		"label": "Link notícia relacionada 2",
+    "hint": "Insira se houver um link para a notícia",
+    "placeholder": "http://noticias/noticia-relacionada"
+	},
+	"entries_content_3": {
+		"label": "Notícia relacionada 3",
+    "hint": "Insira a notícias relacionada 3",
+		"placeholder": "Notícia relacionada 3"
+	},
+	"entries_link_3": {
+		"label": "Link notícia relacionada 3",
+    "hint": "Insira se houver um link para a notícia",
+    "placeholder": "http://noticias/noticia-relacionada"
+	},
+	"entries_content_4": {
+		"label": "Notícia relacionada 4",
+    "hint": "Insira a notícias relacionada 4",
+		"placeholder": "Notícia relacionada 4"
+	},
+	"entries_link_4": {
+		"label": "Link notícia relacionada 4",
     "hint": "Insira se houver um link para a notícia",
     "placeholder": "http://noticias/noticia-relacionada"
 	}
