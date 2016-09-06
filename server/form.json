@@ -5,6 +5,15 @@
       "type": "list",
       "fields": [
         {
+          "name": "date",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "time",
+          "type": "text"
+        },
+        {
           "name": "highlight",
           "type": "rich-text",
           "required": true
@@ -22,20 +31,38 @@
           "type": "text",
           "required": true
         },
-				{
-					"name": "related_news",
-		      "type": "list",
-		      "fields": [
-						{
-		          "name": "related_content",
-		          "type": "rich-text"
-		        },
-		        {
-		          "name": "related_link",
-		          "type": "url"
-		        }
-					]
-				}
+        {
+          "name": "entries_content_1",
+          "type": "rich-text"
+        },
+        {
+          "name": "entries_link_1",
+          "type": "url"
+        },
+        {
+          "name": "entries_content_2",
+          "type": "rich-text"
+        },
+        {
+          "name": "entries_link_2",
+          "type": "url"
+        },
+        {
+          "name": "entries_content_3",
+          "type": "rich-text"
+        },
+        {
+          "name": "entries_link_3",
+          "type": "url"
+        },
+        {
+          "name": "entries_content_4",
+          "type": "rich-text"
+        },
+        {
+          "name": "entries_link_4",
+          "type": "url"
+        }
       ]
     }
   ]
