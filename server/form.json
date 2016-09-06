@@ -5,8 +5,8 @@
       "type": "list",
       "fields": [
         {
-          "name": "date_inform",
-          "type": "date",
+          "name": "date",
+          "type": "date_inform",
           "required": true
         },
         {
