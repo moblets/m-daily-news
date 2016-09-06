@@ -6,12 +6,12 @@
       "fields": [
         {
           "name": "date",
-          "type": "text",
+          "type": "date",
           "required": true
         },
         {
           "name": "time",
-          "type": "text"
+          "type": "time"
         },
         {
           "name": "highlight",
