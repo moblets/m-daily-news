@@ -11,7 +11,7 @@
         },
         {
           "name": "time",
-          "type": "time",
+          "type": "time"
         },
         {
           "name": "highlight",
@@ -20,11 +20,11 @@
         },
         {
           "name": "link",
-          "type": "url",
+          "type": "url"
         },
         {
           "name": "more",
-          "type": "text",
+          "type": "text"
         },
         {
           "name": "next",
@@ -37,7 +37,7 @@
         },
         {
           "name": "entries_link_1",
-          "type": "url",
+          "type": "url"
         },
         {
           "name": "entries_content_2",
@@ -45,7 +45,7 @@
         },
         {
           "name": "entries_link_2",
-          "type": "url",
+          "type": "url"
         },
         {
           "name": "entries_content_3",
