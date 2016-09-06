@@ -5,13 +5,9 @@
       "type": "list",
       "fields": [
         {
-          "name": "date",
+          "name": "date_inform",
           "type": "date",
           "required": true
-        },
-        {
-          "name": "time",
-          "type": "time"
         },
         {
           "name": "highlight",
