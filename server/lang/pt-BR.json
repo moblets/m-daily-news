@@ -10,8 +10,9 @@
     "list_button": "Adicionar notícia diária"
   },
   "date": {
-    "label": "Data",
-    "hint": "Data da notícia"
+    "label": "Data no formato aaaa-mm-dd",
+    "hint": "Data da notícia",
+		"error_date": "Formato de data inválida. Por favor, preencha a data no normato aaaa-mm-dd (ano com 4 dígitos - mês com dois dígitos - dia com dois dígitos)"
   },
   "time": {
     "label": "Horário",
