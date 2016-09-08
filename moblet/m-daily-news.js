@@ -20,7 +20,7 @@ module.exports = {
     // $sanitize
   ) {
     var dataLoadOptions;
-    var list = {
+    var news = {
       /**
        * Set the view and update the needed parameters
        * @param  {object} data Data received from Moblets backend
@@ -37,10 +37,10 @@ module.exports = {
           $scope.items = (more) ? $scope.items.concat(data.items) : data.items;
 
           // Check if the page is loading the list or a detail
-          $scope.isDetail = list.isDetail();
+          $scope.isDetail = news.isDetail();
 
           // Disable the "more" function if the API don't have more items
-          $scope.more = (data.hasMoreItems) ? list.more : undefined;
+          $scope.more = (data.hasMoreItems) ? news.more : undefined;
         } else {
           $scope.error = true;
         }
@@ -50,7 +50,7 @@ module.exports = {
 
         // If the view is showing the detail, call showDetail
         if ($scope.isDetail) {
-          list.showDetail();
+          news.showDetail();
         }
 
         // Remove the loading animation
@@ -78,8 +78,8 @@ module.exports = {
             items: 25,
             cache: false
           };
-          list.load(false, function() {
-            list.showDetail();
+          news.load(false, function() {
+            news.showDetail();
           });
         } else {
           $scope.detail = $scope.items[itemIndex];
@@ -107,7 +107,7 @@ module.exports = {
         // used by the "showDetail" function
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
-            list.setView(data);
+            news.setView(data);
             if (typeof callback === 'function') {
               callback();
             }
@@ -130,7 +130,7 @@ module.exports = {
 
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
-            list.setView(data, true);
+            news.setView(data, true);
           });
       },
       /**
@@ -145,13 +145,13 @@ module.exports = {
       init: function() {
         dataLoadOptions = {
           offset: 0,
-          items: 25,
+          items: 10,
           listKey: 'items',
           cache: ($stateParams.detail !== "")
         };
 
         $scope.moblet = $mMoblet.load();
-        $scope.load = list.load;
+        $scope.load = news.load;
         $scope.load(true);
       }
     };
@@ -167,8 +167,8 @@ module.exports = {
       return str.replace(/<[^>]+>/ig, " ");
     };
 
-    $scope.load = list.load;
+    $scope.load = news.load;
     $scope.goTo = listItem.goTo;
-    list.init();
+    news.init();
   }
 };
