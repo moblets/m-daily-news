@@ -27,5 +27,15 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moblets/m-daily-news.git"
+  },
+  "author": "Eduardo Russo",
+  "bugs": {
+    "url": "https://github.com/moblets/m-daily-news/issues"
+  },
+  "homepage": "https://github.com/moblets/m-daily-news#readme"
 }
