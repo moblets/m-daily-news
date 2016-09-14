@@ -1,11 +1,11 @@
 // node com a validação
 // var uLang = require('uLang');
-// var http = require('http');
+var sha1 = require('js-sha1');
 
 module.exports = {
   /**
    * Validate a given address as a valid Google Maps address
-   * @param {Object}   news Object with one of the "locations" array data.
+   * @param {Object}   news Object with one of the news
    * @param {Function} callback The callback that will be called when the
    * validation finishes. The callback parameters are a Boolean, that responds
    * if it's valid and an Object with the response data
@@ -14,10 +14,12 @@ module.exports = {
     var valid = false;
     var response = {};
     var date = new Date(news.date + ' 00:00:00');
+
     if (validDate(date)) {
       valid = true;
       response = {
         data: {
+          id: date.getTime() + sha1(news.highlight),
           formatedDate: date
         }
       };

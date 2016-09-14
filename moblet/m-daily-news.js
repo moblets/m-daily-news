@@ -54,22 +54,22 @@ module.exports = {
        * 	 - dataLoadOptions - An object with parameters for pagination
        * @param  {boolean} showLoader Boolean to determine if the page loader
        * is active
-       * @param {callback} callback function called when data in loaded
+       * @param {boolean} cache Use or not the cache to get the news
        */
-      load: function(showLoader, callback) {
+      load: function(showLoader) {
+        // var news = [];
         $scope.isLoading = showLoader || false;
-        // Reset the pagination
-        if (showLoader === true || showLoader === undefined) {
-          dataLoadOptions.offset = 0;
-        }
-        // mDataLoader also saves the response in the local cache. It will be
-        // used by the "showDetail" function
+        dataLoadOptions = {
+          offset: 0,
+          items: 100,
+          listKey: 'news',
+          cache: true
+        };
+        // mDataLoader also saves the response in the local cache.
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
+            console.log(data);
             news.setView(data);
-            if (typeof callback === 'function') {
-              callback();
-            }
           }
         );
       },
@@ -94,6 +94,7 @@ module.exports = {
       },
       /**
        * Initiate the list moblet:
+       * - Get data from local storage to show old news
        * - Create a moblet with $mMoblet.load()
        * - put the list.load function in the $scope
        * - run list.load function
@@ -102,13 +103,6 @@ module.exports = {
        * TODO go to detail if url is called
        */
       init: function() {
-        dataLoadOptions = {
-          offset: 0,
-          items: 100,
-          listKey: 'items',
-          cache: ($stateParams.detail !== "")
-        };
-
         $scope.moblet = $mMoblet.load();
         $scope.load = news.load;
         $scope.load(true);
