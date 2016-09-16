@@ -1,10 +1,9 @@
-<m-moblet is-loading="isLoading" inner-scroll="true" unavaliable="error">
-  <m-content init="init" ng-if="!isDetail" reload="load" more="more">
-    <div class="list">
-      <div class="list" ng-repeat="(key, item) in news" ng-click="goTo(item)">
-				<div class="detail">
-		      <div class="description" m-bind-html="item.highlight"></div>
-		    </div>
+<m-moblet is-loading="isLoading" class="bg" inner-scroll="true" unavaliable="error">
+  <m-content init="init">
+    <div ng-repeat="(key, item) in news">
+			<div class="news">
+	      <div class="bubble" m-bind-html="item.highlight"></div>
+	    </div>
     </div>
   </m-content>
 </m-moblet>

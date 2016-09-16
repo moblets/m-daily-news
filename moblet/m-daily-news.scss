@@ -1,4 +1,7 @@
 m-daily-news{
+  .bg{
+    background-color: #fff;
+  }
   .emptyList{
       width:100%;
       height: 100%;
@@ -6,60 +9,39 @@ m-daily-news{
       text-align: center;
       padding-top: 70%;
   }
-  .layout-1 {
-  }
-  .layout-2 {
-    box-shadow: 0 1px 3px rgba(0,0,0,.3);
-    margin: 10px;
-  }
-  .list {
-    position: relative;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    padding-left: 0;
-    margin-bottom: 20px;
-    .item {
-      padding: 10px 12px 0 12px;
-      height: 96px;
-      min-height: 96px;
-      h1 {
-        font-size: 14px;
-        font-weight: 700;
-        text-overflow: inherit;
-        line-height: 1.3em;
-        white-space: normal;
+  .news {
+	  margin: 20px;
+    display: flex;
+    .bubble{
+    	position:relative;
+    	padding:10px 20px;
+    	background:#E5E5EA;
+    	border-radius:25px;
+    	color: black;
+      float: left;
+    	&:before {
+    		content:"";
+    		position:absolute;
+    		z-index:2;
+    		bottom:-2px;
+    		left:-7px;
+    		height:20px;
+    		border-left:20px solid #E5E5EA;
+    		border-bottom-right-radius: 16px 14px;
+    		-webkit-transform:translate(0, -2px);
+    	}
+    	&:after {
+    		content:"";
+    		position:absolute;
+    		z-index:3;
+    		bottom:-2px;
+    		left:4px;
+    		width:26px;
+    		height:20px;
+    		background:#81555a;
+    		border-bottom-right-radius: 10px;
+    		-webkit-transform:translate(-30px, -2px);
       }
-      p {
-        font-size: 14px;
-        line-height: 1.3em;
-        color: #333;
-        white-space: normal;
-      }
-      div {
-        display: -webkit-box;
-        -webkit-line-clamp:2;
-        -webkit-box-orient: vertical;
-        max-height: 2.6em; /* exactly two lines */
-        height: auto;
-        max-height: 2.6em;
-      }
-    }
-  }
-  .detail {
-    position: relative;
-    padding: 16px;
-    background-color: white;
-    h1 {
-      font-size: 17px;
-      line-height: 1.4;
-    }
-    h2 {
-      font-size: 15px;
-      line-height: 1.4;
-    }
-    h3, h4, h5, h6 {
-      font-size: 14px;
-      line-height: 1.4;
-    }
+  	}
   }
 }

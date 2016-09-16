@@ -1,7 +1,3 @@
-// node com a validação
-// var uLang = require('uLang');
-var sha1 = require('js-sha1');
-
 module.exports = {
   /**
    * Validate a given address as a valid Google Maps address
@@ -19,7 +15,6 @@ module.exports = {
       valid = true;
       response = {
         data: {
-          id: date.getTime() + sha1(news.highlight),
           formatedDate: date
         }
       };

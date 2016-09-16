@@ -5,13 +5,13 @@
       "type": "list",
       "fields": [
         {
-          "name": "date",
-          "type": "text",
+          "name": "highlight",
+          "type": "rich-text",
           "required": true
         },
         {
-          "name": "highlight",
-          "type": "rich-text",
+          "name": "date",
+          "type": "text",
           "required": true
         },
         {
