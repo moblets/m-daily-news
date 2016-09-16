@@ -96,6 +96,7 @@ module.exports = {
       if ($scope.data) {
         var newData = data.news.filter(getNewData);
         for (var i = 0; i < newData.length; i++) {
+          /* TODO For each new data, set a param to show them one by one
           $scope.data.news.push(newData[i]);
         }
       } else {
@@ -127,10 +128,6 @@ module.exports = {
           concatData(data);
         }
       });
-    };
-
-    $scope.stripHtml = function(str) {
-      return str.replace(/<[^>]+>/ig, " ");
     };
 
     init();
