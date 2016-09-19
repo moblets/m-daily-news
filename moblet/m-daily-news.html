@@ -1,10 +1,23 @@
-<m-moblet is-loading="isLoading" class="bg" inner-scroll="true" unavaliable="error">
+<m-moblet
+  is-loading="isLoading"
+  class="bg"
+  inner-scroll="true"
+  unavaliable="error">
   <m-content init="init">
     <div ng-repeat="(key, item) in news">
 			<div class="news">
 	      <div class="bubble">
-	        <span class="news-highlight" m-bind-html="item.highlight"></span>
-          <a class="news-link" ng-if="item.link" href="{{item.link}}" target="_blank">ver mais</a>
+	        <span
+            class="news-highlight"
+            m-bind-html="item.highlight.content">
+          </span>
+          <a
+            class="news-link"
+            ng-if="item.highlight.link"
+            href="{{item.highlight.link}}"
+            target="_blank">
+            ver mais
+          </a>
 	      </div>
 	    </div>
     </div>

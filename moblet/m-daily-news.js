@@ -33,7 +33,6 @@ module.exports = {
      * @param {callback} callback Callback function (error, data)
      */
     var loadData = function(showLoader, callback) {
-      console.log('load');
       $scope.isLoading = showLoader;
       var dataLoadOptions = {
         offset: 0,
@@ -66,7 +65,11 @@ module.exports = {
       if ($scope.data) {
         saveData();
         $scope.error = false;
+        /*
+         * TODO: Show each news at a time
+         */
         $scope.news = $scope.data.news;
+
         $ionicScrollDelegate.scrollBottom();
         $rootScope.$broadcast('scroll.refreshComplete');
         $rootScope.$broadcast('scroll.infiniteScrollComplete');
@@ -96,7 +99,9 @@ module.exports = {
       if ($scope.data) {
         var newData = data.news.filter(getNewData);
         for (var i = 0; i < newData.length; i++) {
-          /* TODO For each new data, set a param to show them one by one
+          /*
+           * TODO For each new data, set a param to show them one by one
+           */
           $scope.data.news.push(newData[i]);
         }
       } else {
@@ -121,10 +126,8 @@ module.exports = {
       // Load data from the API
       loadData(true, function(err, data) {
         if (err) {
-          console.log(data);
           concatData([]);
         } else {
-          console.log(data);
           concatData(data);
         }
       });
