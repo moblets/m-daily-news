@@ -122,6 +122,7 @@ module.exports = {
     var init = function() {
       $scope.moblet = $mMoblet.load();
       $scope.data = $mDataLoader.fromLocal($scope.moblet.id);
+      $scope.bgColor = window.getComputedStyle(document.body).backgroundColor;
 
       // Load data from the API
       loadData(true, function(err, data) {

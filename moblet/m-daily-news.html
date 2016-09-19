@@ -3,10 +3,16 @@
   class="bg"
   inner-scroll="true"
   unavaliable="error">
+  <style>
+    .bubble-bgColor::after {
+      background: {{bgColor}};
+    }
+  </style>
   <m-content init="init">
+    <div m-change-theme></div>
     <div ng-repeat="(key, item) in news">
 			<div class="news">
-	      <div class="bubble">
+	      <div class="bubble bubble-bgColor">
 	        <span
             class="news-highlight"
             m-bind-html="item.highlight.content">
