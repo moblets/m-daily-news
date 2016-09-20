@@ -46,6 +46,16 @@
           used: false
         }
       };
+      // Remove unused "more" news
+      for (var j = news[i].more.entries.length - 1; j >= 0; j--) {
+        if (news[i].more.entries[j].content === "") {
+          news[i].more.entries.splice([j], 1);
+        }
+      }
+      // If it has no "more" news, delete the "more" object
+      if (news[i].more.entries.length === 0) {
+        delete news[i].more;
+      }
     } else {
       news.splice([i], 1);
     }

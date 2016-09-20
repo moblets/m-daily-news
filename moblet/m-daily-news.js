@@ -58,7 +58,7 @@ module.exports = {
     /**
      * Set the view and update the needed parameters
      */
-    var setView = function() {
+    var setView = function(err) {
       if ($scope.data) {
         saveData();
         $scope.error = false;
@@ -70,10 +70,10 @@ module.exports = {
         $ionicScrollDelegate.scrollBottom();
         $rootScope.$broadcast('scroll.refreshComplete');
         $rootScope.$broadcast('scroll.infiniteScrollComplete');
-        $scope.isLoading = false;
       } else {
         $scope.error = true;
       }
+      $scope.isLoading = false;
     };
 
     /**
@@ -98,18 +98,21 @@ module.exports = {
         return true;
       }
 
-      // Set the first element to be shown
       if (data.news.length > 0) {
+        console.log('data news');
+        // Set the first element to be shown
         data.news[0].highlight.show = true;
-      }
-
-      if ($scope.data) {
-        var newData = data.news.filter(getNewData);
-        for (var i = 0; i < newData.length; i++) {
-          $scope.data.news.push(newData[i]);
+        console.log(data.news[0]);
+        if ($scope.data) {
+          var newData = data.news.filter(getNewData);
+          for (var i = 0; i < newData.length; i++) {
+            $scope.data.news.push(newData[i]);
+          }
+        } else {
+          $scope.data = data;
         }
       } else {
-        $scope.data = data;
+        $scope.data = false;
       }
       setView();
     };

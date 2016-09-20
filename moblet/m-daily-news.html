@@ -4,24 +4,22 @@
   inner-scroll="true"
   unavaliable="error">
   <style>
-    .bubble-bgColor::after {
+    .arrow-bg-color::after {
       background: {{bgColor}};
     }
   </style>
   <m-content init="init">
     <div m-change-theme></div>
     <div
-      ng-repeat="(key, item) in news"
-    >
-			<div class="news">
+      ng-repeat="(key, item) in news">
+			<div
+        ng-if="item.highlight.show"
+        class="news">
 	      <div
-          ng-if="item.highlight.used"
-          class="bubble bubble-bgColor"
-          >
+          class="bubble arrow-bg-color">
 	        <span
             m-bind-html="item.highlight.content"
-            class="news-highlight"
-          >
+            class="news-highlight">
           </span>
           <a
             ng-if="item.highlight.link"
@@ -32,6 +30,20 @@
           </a>
 	      </div>
 	    </div>
+      <div
+        ng-if="item.highlight.show"
+        class="news">
+        <div
+          class="post arrow-bg-color">
+          <a
+            ng-if="item.highlight.more.length > 0"
+            class="news-link"
+            href="{{item.highlight.more.content}}"
+            target="_blank">
+            ver mais
+          </a>
+        </div>
+      </div>
     </div>
   </m-content>
 </m-moblet>
