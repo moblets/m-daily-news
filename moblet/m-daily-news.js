@@ -68,8 +68,9 @@ module.exports = {
           $location.hash('');
         }, 10);
       }
-      $rootScope.$broadcast('scroll.refreshComplete');
-      $rootScope.$broadcast('scroll.infiniteScrollComplete');
+      $timeout(function() {
+        $rootScope.$broadcast('scroll.refreshComplete');
+      }, 10);
     };
 
     /**
@@ -113,6 +114,7 @@ module.exports = {
         console.log('data news');
         // Set the first element to be shown
         data.news[0].highlight.show = true;
+        delete data.news[data.news.length - 1].next;
         console.log(data.news[0]);
         if ($scope.data) {
           var newData = data.news.filter(getNewData);
@@ -162,7 +164,9 @@ module.exports = {
     $scope.showNext = function(i) {
       $scope.news[i].next.used = true;
       $scope.news[i + 1].highlight.show = true;
-      resetScroll('anchor' + (i + 1));
+      saveData();
+      resetScroll();
+      // resetScroll('anchor' + (i + 1));
     };
   }
 };

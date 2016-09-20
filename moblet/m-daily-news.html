@@ -22,26 +22,36 @@
             ver mais
           </a>
         </div>
-        <!-- BOTH MORE AND NEXT EXISTS BUT NO ACTION USED -->
-        <div
-          ng-if="news.highlight.show && news.more && news.more.used === false && news.next.used === false">
-          <div class="answers" ng-click="readMore(i)">
-            {{news.more.content}}
-          </div>
-          <div class="answers" ng-click="showNext(i)">
-            {{news.next.content}}
-          </div>
+        <!-- MORE -->
+        <div ng-if="news.highlight.show &&
+                    news.more &&
+                    news.more.used === false &&
+                    news.next.used === false"
+          class="answers" ng-click="readMore(i)">
+          {{news.more.content}}
         </div>
-        <!-- ONLY NEXT EXISTS BUT NO ACTION USED -->
+        <!-- NEXT-->
         <div
-          ng-if="news.highlight.show && !news.more && news.next.used === false">
-          <div class="answers" ng-click="showNext(i)">
+          ng-if="news.highlight.show &&
+                  news.next &&
+                  (!news.more || news.more.used === false) &&
+                  news.next.used === false"
+          class="answers" ng-click="showNext(i)">
             {{news.next.content}}
-          </div>
+        </div>
+        <div
+          ng-if="news.highlight.show &&
+                  news.next &&
+                  (!news.more || news.more.used === false) &&
+                  news.next.used === true"
+          class="from-me">
+            {{news.next.content}}
         </div>
         <!-- SHOW MORE WERE USER -->
         <div
-          ng-if="news.highlight.show && news.more && news.more.used === true">
+          ng-if="news.highlight.show &&
+                  news.more &&
+                  news.more.used === true">
           <div class="from-me">
             {{news.more.content}}
           </div>
@@ -58,11 +68,19 @@
               </a>
     	      </div>
           </div>
-          <div ng-if="news.highlight.show && news.next.used === false" class="answers" ng-click="showNext(i)">
-            {{news.next.content}}
+          <div
+            ng-if="news.highlight.show &&
+                    news.next &&
+                    news.next.used === false"
+            class="answers" ng-click="showNext(i)">
+              {{news.next.content}}
           </div>
-          <div ng-if="news.highlight.show && news.next.used === true" class="from-me" ng-click="showNext(i)">
-            {{news.next.content}}
+          <div
+            ng-if="news.highlight.show &&
+                    news.next &&
+                    news.next.used === true"
+            class="from-me">
+              {{news.next.content}}
           </div>
         </div>
       </div>
