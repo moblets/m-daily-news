@@ -4,44 +4,66 @@
   inner-scroll="true"
   unavaliable="error">
   <style>
-    .arrow-bg-color::after {
+    .from-them::after, .from-me::after {
       background: {{bgColor}};
     }
   </style>
   <m-content init="init">
-    <div m-change-theme></div>
-    <div
-      ng-repeat="(key, item) in news">
-			<div
-        ng-if="item.highlight.show"
-        class="news">
-	      <div
-          class="bubble arrow-bg-color">
-	        <span
-            m-bind-html="item.highlight.content"
-            class="news-highlight">
+    <div class="news">
+      <div ng-repeat="(i, news) in news">
+        <div class="from-them" id="anchor{{i}}" ng-if="news.highlight.show">
+          <span m-bind-html="news.highlight.content" class="news-highlight">
           </span>
           <a
-            ng-if="item.highlight.link"
+            ng-if="news.highlight.link"
             class="news-link"
-            href="{{item.highlight.link}}"
+            href="{{news.highlight.link}}"
             target="_blank">
             ver mais
           </a>
-	      </div>
-	    </div>
-      <div
-        ng-if="item.highlight.show"
-        class="news">
+        </div>
+        <!-- BOTH MORE AND NEXT EXISTS BUT NO ACTION USED -->
         <div
-          class="post arrow-bg-color">
-          <a
-            ng-if="item.highlight.more.length > 0"
-            class="news-link"
-            href="{{item.highlight.more.content}}"
-            target="_blank">
-            ver mais
-          </a>
+          ng-if="news.highlight.show && news.more && news.more.used === false && news.next.used === false">
+          <div class="answers" ng-click="readMore(i)">
+            {{news.more.content}}
+          </div>
+          <div class="answers" ng-click="showNext(i)">
+            {{news.next.content}}
+          </div>
+        </div>
+        <!-- ONLY NEXT EXISTS BUT NO ACTION USED -->
+        <div
+          ng-if="news.highlight.show && !news.more && news.next.used === false">
+          <div class="answers" ng-click="showNext(i)">
+            {{news.next.content}}
+          </div>
+        </div>
+        <!-- SHOW MORE WERE USER -->
+        <div
+          ng-if="news.highlight.show && news.more && news.more.used === true">
+          <div class="from-me">
+            {{news.more.content}}
+          </div>
+          <div ng-repeat="(j, more) in news.more.entries" class="news">
+    	      <div class="from-them">
+    	        <span m-bind-html="more.content" class="news-highlight">
+              </span>
+              <a
+                ng-if="more.content.link"
+                class="news-link"
+                href="{{more.content.link}}"
+                target="_blank">
+                ver mais
+              </a>
+    	      </div>
+          </div>
+          <div ng-if="news.highlight.show && news.next.used === false" class="answers" ng-click="showNext(i)">
+            {{news.next.content}}
+          </div>
+          <div ng-if="news.highlight.show && news.next.used === true" class="from-me" ng-click="showNext(i)">
+            {{news.next.content}}
+          </div>
         </div>
       </div>
     </div>

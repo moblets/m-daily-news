@@ -17,7 +17,9 @@ module.exports = {
     $stateParams,
     $mMoblet,
     $mDataLoader,
-    $ionicScrollDelegate
+    $ionicScrollDelegate,
+    $location,
+    $anchorScroll
   ) {
     /**
      * Load data from the Moblets backend:
@@ -55,21 +57,30 @@ module.exports = {
       $mDataLoader.saveCache($scope.moblet.id, $scope.data, {list: 'news'});
     };
 
+    var resetScroll = function(id) {
+      id = id || false;
+      if (id === 'bottom') {
+        $ionicScrollDelegate.scrollBottom();
+      } else if (id) {
+        $timeout(function() {
+          $location.hash(id);
+          $anchorScroll();
+          $location.hash('');
+        }, 10);
+      }
+      $rootScope.$broadcast('scroll.refreshComplete');
+      $rootScope.$broadcast('scroll.infiniteScrollComplete');
+    };
+
     /**
      * Set the view and update the needed parameters
      */
-    var setView = function(err) {
+    var setView = function() {
       if ($scope.data) {
         saveData();
         $scope.error = false;
-        /*
-         * TODO: Show each news at a time
-         */
         $scope.news = $scope.data.news;
-
-        $ionicScrollDelegate.scrollBottom();
-        $rootScope.$broadcast('scroll.refreshComplete');
-        $rootScope.$broadcast('scroll.infiniteScrollComplete');
+        resetScroll('bottom');
       } else {
         $scope.error = true;
       }
@@ -117,14 +128,7 @@ module.exports = {
       setView();
     };
     /**
-     * Initiate the list moblet:
-     * - Get data from local storage to show old news
-     * - Create a moblet with $mMoblet.load()
-     * - put the list.load function in the $scope
-     * - run list.load function
-     */
-    /*
-     * TODO go to detail if url is called
+     * Initiate the daily news moblet:
      */
     var init = function() {
       $scope.moblet = $mMoblet.load();
@@ -144,5 +148,21 @@ module.exports = {
     };
 
     init();
+
+    /**
+     * TODO: if not today news, don't show the action buttons
+     **/
+
+    $scope.readMore = function(i) {
+      $scope.news[i].more.used = true;
+      saveData();
+      resetScroll('bottom');
+    };
+
+    $scope.showNext = function(i) {
+      $scope.news[i].next.used = true;
+      $scope.news[i + 1].highlight.show = true;
+      resetScroll('anchor' + (i + 1));
+    };
   }
 };
