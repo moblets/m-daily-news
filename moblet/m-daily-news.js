@@ -99,7 +99,9 @@ module.exports = {
       }
 
       // Set the first element to be shown
-      data[0].highlight.show = true;
+      if (data.news.length > 0) {
+        data.news[0].highlight.show = true;
+      }
 
       if ($scope.data) {
         var newData = data.news.filter(getNewData);
