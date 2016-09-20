@@ -10,16 +10,22 @@
   </style>
   <m-content init="init">
     <div m-change-theme></div>
-    <div ng-repeat="(key, item) in news">
+    <div
+      ng-repeat="(key, item) in news"
+    >
 			<div class="news">
-	      <div class="bubble bubble-bgColor">
+	      <div
+          ng-if="item.highlight.used"
+          class="bubble bubble-bgColor"
+          >
 	        <span
+            m-bind-html="item.highlight.content"
             class="news-highlight"
-            m-bind-html="item.highlight.content">
+          >
           </span>
           <a
-            class="news-link"
             ng-if="item.highlight.link"
+            class="news-link"
             href="{{item.highlight.link}}"
             target="_blank">
             ver mais

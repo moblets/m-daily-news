@@ -57,9 +57,6 @@ module.exports = {
 
     /**
      * Set the view and update the needed parameters
-     * @param  {object} data Data received from Moblets backend
-     * @param  {boolean} more If called by "more" function, it will add the
-     * data to the items array
      */
     var setView = function() {
       if ($scope.data) {
@@ -79,12 +76,17 @@ module.exports = {
       }
     };
 
+    /**
+      Concatenate "data" with the data saved in the local storage
+      @param {object} data The data to be concatenated with @scope.data
+    **/
     var concatData = function(data) {
       /**
       Filter function to get data that is not in the local storage
       @param {object} value The news entry to be checked agains the local
       storage news that's already set in $scope.news
-      @return {boolean} False if the data exists in the local storage
+      @return {boolean} False if the data exists in the local storage. Only add
+      data with new unique ID
       **/
       function getNewData(value) {
         var news = $scope.data.news;
@@ -96,12 +98,12 @@ module.exports = {
         return true;
       }
 
+      // Set the first element to be shown
+      data[0].highlight.show = true;
+
       if ($scope.data) {
         var newData = data.news.filter(getNewData);
         for (var i = 0; i < newData.length; i++) {
-          /*
-           * TODO For each new data, set a param to show them one by one
-           */
           $scope.data.news.push(newData[i]);
         }
       } else {
@@ -121,16 +123,18 @@ module.exports = {
      */
     var init = function() {
       $scope.moblet = $mMoblet.load();
+      // Try to load data from local storage
       $scope.data = $mDataLoader.fromLocal($scope.moblet.id);
+      // Get the theme BG color to use in the bubble arrow
       $scope.bgColor = window.getComputedStyle(document.body).backgroundColor;
 
       // Load data from the API
       loadData(true, function(err, data) {
         if (err) {
-          concatData([]);
-        } else {
-          concatData(data);
+          data = [];
         }
+        // Concatenate the data loaded from the API with the local storage
+        concatData(data);
       });
     };
 

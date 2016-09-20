@@ -16,6 +16,7 @@
         highlight: {
           content: news[i].highlight,
           used: false,
+          show: false,
           link: news[i].link
         },
         more: {
