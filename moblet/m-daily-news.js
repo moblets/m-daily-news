@@ -18,8 +18,7 @@ module.exports = {
     $mMoblet,
     $mDataLoader,
     $ionicScrollDelegate,
-    $location,
-    $anchorScroll
+    $location
   ) {
     /**
      * Load data from the Moblets backend:
@@ -57,20 +56,21 @@ module.exports = {
       $mDataLoader.saveCache($scope.moblet.id, $scope.data, {list: 'news'});
     };
 
-    var resetScroll = function(id) {
-      id = id || false;
-      if (id === 'bottom') {
-        $ionicScrollDelegate.scrollBottom();
-      } else if (id) {
-        $timeout(function() {
-          $location.hash(id);
-          $anchorScroll();
-          $location.hash('');
-        }, 10);
-      }
+    var scrollTo = function(id, subId) {
+      id = subId === undefined ? id : id + '-' + subId;
+      id = 'anchor-' + id;
+
       $timeout(function() {
-        $rootScope.$broadcast('scroll.refreshComplete');
+        console.log('resize scroll');
+        $ionicScrollDelegate.resize();
       }, 10);
+
+      $timeout(function() {
+        console.log('move to anchor', id);
+        var top = document.getElementById(id).offsetTop - 10;
+        $ionicScrollDelegate.scrollTo(0, top, true);
+        $rootScope.$broadcast('scroll.refreshComplete');
+      }, 20);
     };
 
     /**
@@ -78,10 +78,10 @@ module.exports = {
      */
     var setView = function() {
       if ($scope.data) {
-        saveData();
         $scope.error = false;
         $scope.news = $scope.data.news;
-        resetScroll('bottom');
+        $ionicScrollDelegate.scrollBottom(true);
+        $rootScope.$broadcast('scroll.refreshComplete');
       } else {
         $scope.error = true;
       }
@@ -114,7 +114,6 @@ module.exports = {
         console.log('data news');
         // Set the first element to be shown
         data.news[0].highlight.show = true;
-        delete data.news[data.news.length - 1].next;
         console.log(data.news[0]);
         if ($scope.data) {
           var newData = data.news.filter(getNewData);
@@ -127,7 +126,6 @@ module.exports = {
       } else {
         $scope.data = false;
       }
-      setView();
     };
     /**
      * Initiate the daily news moblet:
@@ -146,6 +144,9 @@ module.exports = {
         }
         // Concatenate the data loaded from the API with the local storage
         concatData(data);
+        saveData();
+        console.log($scope.data);
+        setView();
       });
     };
 
@@ -158,15 +159,18 @@ module.exports = {
     $scope.readMore = function(i) {
       $scope.news[i].more.used = true;
       saveData();
-      resetScroll('bottom');
+      $ionicScrollDelegate.resize();
+      $rootScope.$broadcast('scroll.refreshComplete');
+      scrollTo(i, 0);
     };
 
     $scope.showNext = function(i) {
       $scope.news[i].next.used = true;
       $scope.news[i + 1].highlight.show = true;
       saveData();
-      resetScroll();
-      // resetScroll('anchor' + (i + 1));
+      $ionicScrollDelegate.resize();
+      $rootScope.$broadcast('scroll.refreshComplete');
+      scrollTo(i + 1);
     };
   }
 };

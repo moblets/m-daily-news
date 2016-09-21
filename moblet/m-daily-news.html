@@ -10,58 +10,61 @@
   </style>
   <m-content init="init">
     <div class="news">
-      <div ng-repeat="(i, news) in news">
-        <div class="from-them" id="anchor{{i}}" ng-if="news.highlight.show">
-          <span m-bind-html="news.highlight.content" class="news-highlight">
+      <div ng-repeat="(i, n) in news">
+        <div class="from-them" id="anchor-{{i}}" ng-if="n.highlight.show">
+          <span m-bind-html="n.highlight.content" class="n-highlight">
           </span>
           <a
-            ng-if="news.highlight.link"
+            ng-if="n.highlight.link"
             class="news-link"
-            href="{{news.highlight.link}}"
+            href="{{n.highlight.link}}"
             target="_blank">
             ver mais
           </a>
+          {{i}}
+          {{news.length - 1}}
         </div>
         <!-- MORE -->
-        <div ng-if="news.highlight.show &&
-                    news.more &&
-                    news.more.used === false &&
-                    news.next.used === false"
+        <div ng-if="n.highlight.show &&
+                    n.more &&
+                    n.more.used === false &&
+                    n.next.used === false"
           class="answers" ng-click="readMore(i)">
-          {{news.more.content}}
+          {{n.more.content}}
         </div>
         <!-- NEXT-->
         <div
-          ng-if="news.highlight.show &&
-                  news.next &&
-                  (!news.more || news.more.used === false) &&
-                  news.next.used === false"
+          ng-if="n.highlight.show &&
+                  i < news.length - 1 &&
+                  n.next &&
+                  (!n.more || n.more.used === false) &&
+                  n.next.used === false"
           class="answers" ng-click="showNext(i)">
-            {{news.next.content}}
+            {{n.next.content}}
         </div>
         <div
-          ng-if="news.highlight.show &&
-                  news.next &&
-                  (!news.more || news.more.used === false) &&
-                  news.next.used === true"
+          ng-if="n.highlight.show &&
+                  n.next &&
+                  (!n.more || n.more.used === false) &&
+                  n.next.used === true"
           class="from-me">
-            {{news.next.content}}
+            {{n.next.content}}
         </div>
-        <!-- SHOW MORE WERE USER -->
+        <!-- SHOW MORE WERE USED -->
         <div
-          ng-if="news.highlight.show &&
-                  news.more &&
-                  news.more.used === true">
+          ng-if="n.highlight.show &&
+                  n.more &&
+                  n.more.used === true">
           <div class="from-me">
-            {{news.more.content}}
+            {{n.more.content}}
           </div>
-          <div ng-repeat="(j, more) in news.more.entries" class="news">
-    	      <div class="from-them">
-    	        <span m-bind-html="more.content" class="news-highlight">
+          <div ng-repeat="(j, more) in n.more.entries" class="n">
+    	      <div class="from-them" id="anchor-{{i}}-{{j}}">
+    	        <span m-bind-html="more.content" class="n-highlight">
               </span>
               <a
                 ng-if="more.content.link"
-                class="news-link"
+                class="n-link"
                 href="{{more.content.link}}"
                 target="_blank">
                 ver mais
@@ -69,18 +72,19 @@
     	      </div>
           </div>
           <div
-            ng-if="news.highlight.show &&
-                    news.next &&
-                    news.next.used === false"
+            ng-if="n.highlight.show &&
+                    n.next &&
+                    i < news.length - 1 &&
+                    n.next.used === false"
             class="answers" ng-click="showNext(i)">
-              {{news.next.content}}
+              {{n.next.content}}
           </div>
           <div
-            ng-if="news.highlight.show &&
-                    news.next &&
-                    news.next.used === true"
+            ng-if="n.highlight.show &&
+                    n.next &&
+                    n.next.used === true"
             class="from-me">
-              {{news.next.content}}
+              {{n.next.content}}
           </div>
         </div>
       </div>
