@@ -60,6 +60,21 @@
           "type": "text"
         }
       ]
+    },
+    {
+      "name": "welcome",
+      "type": "rich-text",
+      "required": true
+    },
+    {
+      "name": "bye",
+      "type": "rich-text",
+      "required": true
+    },
+    {
+      "name": "no-news",
+      "type": "rich-text",
+      "required": true
     }
   ]
 }

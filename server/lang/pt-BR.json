@@ -4,6 +4,21 @@
     "hint": "Crie notícias diárias no formato de bate papo",
     "description": "Adicione novas notícias com dia e horário para serem mostradas para seus usuários como se fosse um bate papo"
   },
+  "welcome": {
+    "label": "Mensagem de boas vindas",
+    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página",
+    "placeholder": "Olá! Vamos ver o que temos hoje?"
+  },
+  "bye": {
+    "label": "Mensagem final",
+    "hint": "Mensagem final que será mostrada quando não houverem mais notícias",
+    "placeholder": "Por hoje é só 😅"
+  },
+  "no-news": {
+    "label": "Sem notícias",
+    "hint": "Mensagem que será mostrada quando não houverem notícias",
+    "placeholder": "Não temos notícias, ainda"
+  },
   "news": {
     "label": "Lista de notícias",
     "hint": "Insira as notícias",
