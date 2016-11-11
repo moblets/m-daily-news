@@ -9,7 +9,7 @@
     var date = new Date(news[i].formatedDate);
 
     // Only send news for today
-    if (date.getTime() === today.getTime()) {
+    // if (date.getTime() === today.getTime()) {
       news[i] = {
         id: news[i].id,
         date: news[i].formatedDate,
@@ -56,9 +56,9 @@
       if (news[i].more.entries.length === 0) {
         delete news[i].more;
       }
-    } else {
-      news.splice([i], 1);
-    }
+    // } else {
+    //   news.splice([i], 1);
+    // }
   }
   return data;
 };
