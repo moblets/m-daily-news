@@ -1,4 +1,6 @@
 m-daily-news{
+  @from-me-color: #0B93F6;
+  @from-them-color: #E5E5EA;
   .bg{
     background-color: #fff;
   }
@@ -21,7 +23,7 @@ m-daily-news{
   .clear {clear: both}
   .from-me {
   	color:white;
-  	background:#0B93F6;
+  	background:@from-me-color;
   	float: right;
   	&:before {
   		content:"";
@@ -30,7 +32,7 @@ m-daily-news{
   		bottom:-2px;
   		right:-7px;
   		height:20px;
-  		border-right:20px solid #0B93F6;
+  		border-right:20px solid @from-me-color;
   		border-bottom-left-radius: 16px 14px;
   		-webkit-transform:translate(0, -2px);
   	}
@@ -47,7 +49,7 @@ m-daily-news{
   	}
   }
   .from-them {
-  	background:#E5E5EA;
+  	background:@from-them-color;
   	color: black;
     float: left;
   	&:before {
@@ -57,7 +59,7 @@ m-daily-news{
   		bottom:-2px;
   		left:-7px;
   		height:20px;
-  		border-left:20px solid #E5E5EA;
+  		border-left:20px solid @from-them-color;
   		border-bottom-right-radius: 16px 14px;
   		-webkit-transform:translate(0, -2px);
   	}

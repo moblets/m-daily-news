@@ -1,7 +1,7 @@
 /* eslint no-undef: [0]*/
 module.exports = {
   title: "mDailyNews",
-  style: "m-daily-news.scss",
+  style: "m-daily-news.less",
   template: 'm-daily-news.html',
   i18n: {
     pt: "lang/pt-BR.json",
@@ -15,7 +15,6 @@ module.exports = {
     $timeout,
     $state,
     $stateParams,
-    $mMoblet,
     $mDataLoader,
     $ionicScrollDelegate,
     $location
@@ -131,7 +130,7 @@ module.exports = {
      * Initiate the daily news moblet:
      */
     var init = function() {
-      $scope.moblet = $mMoblet.load();
+      // $scope.moblet = $mMoblet.load();
       // Try to load data from local storage
       $scope.data = $mDataLoader.fromLocal($scope.moblet.id);
       // Get the theme BG color to use in the bubble arrow
