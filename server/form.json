@@ -63,7 +63,7 @@
     },
     {
       "name": "welcome",
-      "type": "text-area",
+      "type": "text",
       "required": true
     },
     {

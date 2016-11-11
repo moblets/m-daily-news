@@ -46,6 +46,7 @@ module.exports = {
       // mDataLoader also saves the response in the local cache.
       $mDataLoader.load($scope.moblet, dataLoadOptions)
         .then(function(data) {
+          console.log(data);
           callback(false, data);
         }, function(error) {
           callback(true, error);
@@ -95,7 +96,6 @@ module.exports = {
       @param {object} data The data to be concatenated with @scope.data
     **/
     var concatData = function(data) {
-      console.log(data);
       /**
       Filter function to get data that is not in the local storage
       @param {object} value The news entry to be checked agains the local
