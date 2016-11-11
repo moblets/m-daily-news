@@ -17,7 +17,9 @@ module.exports = {
     $stateParams,
     $mDataLoader,
     $ionicScrollDelegate,
-    $location
+    $location,
+    $mTheme,
+    $localStorage
   ) {
     /**
      * Load data from the Moblets backend:
@@ -84,6 +86,7 @@ module.exports = {
       } else {
         $scope.error = true;
       }
+      $scope.colors = $mTheme;
       $scope.isLoading = false;
     };
 
@@ -92,6 +95,7 @@ module.exports = {
       @param {object} data The data to be concatenated with @scope.data
     **/
     var concatData = function(data) {
+      console.log(data);
       /**
       Filter function to get data that is not in the local storage
       @param {object} value The news entry to be checked agains the local
@@ -134,7 +138,7 @@ module.exports = {
       // Try to load data from local storage
       $scope.data = $mDataLoader.fromLocal($scope.moblet.id);
       // Get the theme BG color to use in the bubble arrow
-      $scope.bgColor = window.getComputedStyle(document.body).backgroundColor;
+      $scope.bgColor = $localStorage['app-def'].colors.background_color;
 
       // Load data from the API
       loadData(true, function(err, data) {
