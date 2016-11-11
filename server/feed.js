@@ -1,4 +1,4 @@
-	module.exports = function(data) {
+module.exports = function(data) {
   var news = data.news;
 
   var today = new Date();

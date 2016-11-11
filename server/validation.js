@@ -9,7 +9,7 @@ module.exports = {
   news: function(news, callback) {
     var valid = false;
     var response = {};
-    var date = new Date(news.date + ' 00:00:00');
+    var date = new Date(news.date + ' 00:00:00 GMT-0000');
 
     if (validDate(date)) {
       valid = true;
