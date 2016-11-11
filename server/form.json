@@ -73,8 +73,7 @@
     },
     {
       "name": "no-news",
-      "type": "text",
-      "required": true
+      "type": "text"
     }
   ]
 }
