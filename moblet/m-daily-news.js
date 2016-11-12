@@ -19,7 +19,8 @@ module.exports = {
     $ionicScrollDelegate,
     $location,
     $mTheme,
-    $localStorage
+    $localStorage,
+    $mAppDef
   ) {
     /**
      * Load data from the Moblets backend:
@@ -138,7 +139,7 @@ module.exports = {
       // Try to load data from local storage
       $scope.data = $mDataLoader.fromLocal($scope.moblet.id);
       // Get the theme BG color to use in the bubble arrow
-      $scope.bgColor = $localStorage['app-def'].colors.background_color;
+      $scope.bgColor = $mAppDef().load().colors.background_color;
 
       // Load data from the API
       loadData(true, function(err, data) {

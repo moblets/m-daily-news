@@ -72,7 +72,7 @@
       "required": true
     },
     {
-      "name": "no-news",
+      "name": "noNews",
       "type": "text"
     }
   ]
