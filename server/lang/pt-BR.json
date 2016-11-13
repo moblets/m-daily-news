@@ -4,17 +4,27 @@
     "hint": "Crie notícias diárias no formato de bate papo",
     "description": "Adicione novas notícias com dia e horário para serem mostradas para seus usuários como se fosse um bate papo"
   },
-  "welcome": {
-    "label": "Mensagem de boas vindas",
-    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página",
-    "placeholder": "Olá! Vamos ver o que temos hoje?"
+  "goodMorning": {
+    "label": "Mensagem de bom dia (4:01 às 12:00)",
+    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 4:00 e 12:00",
+    "placeholder": "Bom dia 😀"
+  },
+  "goodAfternoon": {
+    "label": "Mensagem de boa tarde (12:01 às 20:00)",
+    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 12:01 e 20:00",
+    "placeholder": "Boa tarde 😀"
+  },
+  "goodEvening": {
+    "label": "Mensagem de boa noite (20:01 às 4:00)",
+    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 20:01 e 4:00",
+    "placeholder": "Boa noite 😀"
   },
   "bye": {
     "label": "Mensagem final",
     "hint": "Mensagem final que será mostrada quando não houverem mais notícias",
     "placeholder": "Por hoje é só 😅"
   },
-  "no-news": {
+  "noNews": {
     "label": "Sem notícias",
     "hint": "Mensagem que será mostrada quando não houverem notícias",
     "placeholder": "Não temos notícias, ainda"
