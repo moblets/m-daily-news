@@ -1,13 +1,33 @@
 module.exports = function(data) {
-  console.log('before >>>>>>>>>>>>>>>>');
-  console.log(data);
-  if (data.goodMorning === undefined || data.goodMorning === null || data.goodMorning === '') {
-    data.goodMorning = 'Olar'
-  }
-
   var today = new Date();
   today.setUTCHours(0, 0, 0, 0);
   data.today = today;
+
+  // Insert default values and set greetings object
+  data.greetings = {
+    date: today,
+    morning: {
+      content: (data.goodMorning === undefined || data.goodMorning === '') ?
+                'Bom dia 😀' :
+                data.goodMorning,
+      used: false
+    },
+    afternoon: {
+      content: (data.goodAfternoon === undefined || data.goodAfternoon === '') ?
+                'Boa tarde 😀' :
+                data.goodAfternoon,
+      used: false
+    },
+    evening: {
+      content: (data.goodEvening === undefined || data.goodEvening === '') ?
+                'Boa noite 😀' :
+                data.goodEvening,
+      used: false
+    }
+  };
+  delete data.goodMorning;
+  delete data.goodAfternoon;
+  delete data.goodEvening;
 
   var news = data.news;
   for (var i = news.length - 1; i >= 0; i--) {

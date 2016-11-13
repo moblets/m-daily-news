@@ -17,7 +17,6 @@ module.exports = {
     $mDataLoader,
     $ionicScrollDelegate,
     $location,
-    $mTheme,
     $localStorage,
     $mAppDef
   ) {
@@ -30,12 +29,9 @@ module.exports = {
      * 	 - false - A boolean that sets if you want to load data from the
      * 	   device storage or from the Moblets API
      * 	 - dataLoadOptions - An object with parameters for pagination
-     * @param  {boolean} showLoader Boolean to determine if the page loader
-     * is active
      * @param {callback} callback Callback function (error, data)
      */
-    var loadData = function(showLoader, callback) {
-      $scope.isLoading = showLoader;
+    var loadInstanceData = function(callback) {
       var dataLoadOptions = {
         offset: 0,
         items: 100,
@@ -45,13 +41,15 @@ module.exports = {
 
       // mDataLoader also saves the response in the local cache.
       $mDataLoader.load($scope.moblet, dataLoadOptions)
-        .then(function(data) {
-          console.log(data);
-          callback(false, data);
-        }, function(error) {
-          callback(true, error);
-        }
-      );
+        .then(
+          function(data) {
+            callback(data);
+          },
+          function(error) {
+            console.error(error);
+            callback([]);
+          }
+        );
     };
 
     var saveData = function() {
@@ -75,80 +73,88 @@ module.exports = {
       }, 20);
     };
 
+    var getCurrentGreeting = function() {
+      var type = '';
+      var response = '';
+
+      var curentTime = new Date();
+      var time = curentTime.getHours() * 100 + curentTime.getMinutes();
+      if (time >= 401 && time <= 1200) {
+        type = 'morning';
+      } else if (time >= 1201 && time <= 2000) {
+        type = 'afternoon';
+      } else {
+        type = 'evening';
+      }
+      console.log($scope.data.greetings[type].used);
+      if ($scope.data.greetings[type].used === false) {
+        response = $scope.data.greetings[type].content;
+        $scope.data.greetings[type].used = true;
+        saveData();
+      }
+      console.log(time, response);
+      return response;
+    };
+
     /**
      * Set the view and update the needed parameters
      */
     var setView = function() {
       if ($scope.data) {
+        $scope.data.greeting = getCurrentGreeting();
+        console.log($scope.data);
+        // Get the theme BG color to use in the bubble arrow
+        $scope.bgColor = $mAppDef().load().colors.background_color;
         $scope.error = false;
-        $scope.news = $scope.data.news;
         $ionicScrollDelegate.scrollBottom(true);
         $rootScope.$broadcast('scroll.refreshComplete');
       } else {
         $scope.error = true;
       }
-      $scope.colors = $mTheme;
       $scope.isLoading = false;
     };
 
     /**
       Concatenate "data" with the data saved in the local storage
-      @param {object} data The data to be concatenated with @scope.data
+      @param {object} data The data to be concatenated with $scope.data
     **/
-    var concatData = function(data) {
-      /**
-      Filter function to get data that is not in the local storage
-      @param {object} value The news entry to be checked agains the local
-      storage news that's already set in $scope.news
-      @return {boolean} False if the data exists in the local storage. Only add
-      data with new unique ID
-      **/
-      function getNewData(value) {
-        var news = $scope.data.news;
-        for (var i = 0; i < news.length; i++) {
-          if (news[i].id === value.id) {
-            return false;
-          }
-        }
-        return true;
-      }
-
+    var setScopeData = function(data) {
       if (data.news.length > 0) {
-        console.log('data news');
         // Set the first element to be shown
         data.news[0].highlight.show = true;
-        console.log(data.news[0]);
-        if ($scope.data) {
-          var newData = data.news.filter(getNewData);
+        // Check if a local data exists
+        if ($scope.data === undefined) {
+          // No data on local storage
+          $scope.data = data;
+        } else {
+          // Data already set in local storage
+          var newData = data.news.filter(getNewDataFilter);
           for (var i = 0; i < newData.length; i++) {
             $scope.data.news.push(newData[i]);
           }
-        } else {
-          $scope.data = data;
+          // Update $scope's greeting with the remote data
+          console.log(data.greetings.date > $scope.data.greetings.date);
+          if (data.greetings.date > $scope.data.greetings.date) {
+            $scope.data.greetings = data.greetings;
+          }
         }
       } else {
         $scope.data = false;
       }
     };
+
     /**
      * Initiate the daily news moblet:
      */
     var init = function() {
-      // $scope.moblet = $mMoblet.load();
+      $scope.isLoading = true;
       // Try to load data from local storage
       $scope.data = $mDataLoader.fromLocal($scope.moblet.id);
-      // Get the theme BG color to use in the bubble arrow
-      $scope.bgColor = $mAppDef().load().colors.background_color;
-
       // Load data from the API
-      loadData(true, function(err, data) {
-        if (err) {
-          data = [];
-        }
-        // Concatenate the data loaded from the API with the local storage
-        concatData(data);
+      loadInstanceData(function(remoteData) {
+        // Concatenate the remoteData loaded from the API with the local storage set in $scope
+        setScopeData(remoteData);
         saveData();
-        console.log($scope.data);
         setView();
       });
     };
@@ -159,8 +165,25 @@ module.exports = {
      * TODO: if not today news, don't show the action buttons
      **/
 
+    /**
+    Filter function to get data that is not in the local storage
+    @param {object} value The news entry to be checked agains the local
+    storage news that's already set in $scope.data.news
+    @return {boolean} False if the data exists in the local storage. Only add
+    data with new unique ID
+    **/
+    getNewDataFilter = function getNewDataFilter(value) {
+      var news = $scope.data.news;
+      for (var i = 0; i < news.length; i++) {
+        if (news[i].id === value.id) {
+          return false;
+        }
+      }
+      return true;
+    };
+
     $scope.readMore = function(i) {
-      $scope.news[i].more.used = true;
+      $scope.data.news[i].more.used = true;
       saveData();
       $ionicScrollDelegate.resize();
       $rootScope.$broadcast('scroll.refreshComplete');
@@ -168,8 +191,8 @@ module.exports = {
     };
 
     $scope.showNext = function(i) {
-      $scope.news[i].next.used = true;
-      $scope.news[i + 1].highlight.show = true;
+      $scope.data.news[i].next.used = true;
+      $scope.data.news[i + 1].highlight.show = true;
       saveData();
       $ionicScrollDelegate.resize();
       $rootScope.$broadcast('scroll.refreshComplete');

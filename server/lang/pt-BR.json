@@ -5,29 +5,29 @@
     "description": "Adicione novas notícias com dia e horário para serem mostradas para seus usuários como se fosse um bate papo"
   },
   "goodMorning": {
-    "label": "Mensagem de bom dia (4:01 às 12:00)",
-    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 4:00 e 12:00",
+    "label": "Mensagem de bom dia",
+    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 4:01 e 12:00",
     "placeholder": "Bom dia 😀"
   },
   "goodAfternoon": {
-    "label": "Mensagem de boa tarde (12:01 às 20:00)",
+    "label": "Mensagem de boa tarde",
     "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 12:01 e 20:00",
     "placeholder": "Boa tarde 😀"
   },
   "goodEvening": {
-    "label": "Mensagem de boa noite (20:01 às 4:00)",
+    "label": "Mensagem de boa noite",
     "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 20:01 e 4:00",
     "placeholder": "Boa noite 😀"
   },
   "bye": {
-    "label": "Mensagem final",
-    "hint": "Mensagem final que será mostrada quando não houverem mais notícias",
-    "placeholder": "Por hoje é só 😅"
+    "label": "Mensagem de tchau",
+    "hint": "Mensagem final que será mostrada quando acabarem as notícias do dia",
+    "placeholder": "Acabaram as notícias 😅"
   },
   "noNews": {
-    "label": "Sem notícias",
+    "label": "Mensagem quando não tem mais notícias",
     "hint": "Mensagem que será mostrada quando não houverem notícias",
-    "placeholder": "Não temos notícias, ainda"
+    "placeholder": "Não tem nenhuma notícia por enquanto 😪"
   },
   "news": {
     "label": "Lista de notícias",
@@ -37,7 +37,8 @@
   "date": {
     "label": "Data no formato aaaa-mm-dd",
     "hint": "Data da notícia",
-		"error_date": "Formato de data inválida. Por favor, preencha a data no normato aaaa-mm-dd (ano com 4 dígitos - mês com dois dígitos - dia com dois dígitos)"
+		"error_date": "Formato de data inválida. Por favor, preencha a data no normato aaaa-mm-dd (ano com 4 dígitos - mês com dois dígitos - dia com dois dígitos)",
+    "placeholder": "2016-10-28"
   },
   "time": {
     "label": "Horário",

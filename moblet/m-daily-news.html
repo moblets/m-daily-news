@@ -11,7 +11,10 @@
   }
   </style>
     <div class="news">
-      <div ng-repeat="(i, n) in news">
+      <div>
+        {{data.greeting}}
+      </div>
+      <div ng-repeat="(i, n) in data.news">
         <div class="from-them" id="anchor-{{i}}" ng-if="n.highlight.show">
           <span m-bind-html="n.highlight.content" class="n-highlight">
           </span>
@@ -34,7 +37,7 @@
         <!-- NEXT-->
         <div
           ng-if="n.highlight.show &&
-                  i < news.length - 1 &&
+                  i < data.news.length - 1 &&
                   n.next &&
                   (!n.more || n.more.used === false) &&
                   n.next.used === false"
@@ -73,7 +76,7 @@
           <div
             ng-if="n.highlight.show &&
                     n.next &&
-                    i < news.length - 1 &&
+                    i < data.news.length - 1 &&
                     n.next.used === false"
             class="answers" ng-click="showNext(i)">
               {{n.next.content}}
