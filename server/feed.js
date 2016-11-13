@@ -1,4 +1,6 @@
 module.exports = function(data) {
+  console.log('before >>>>>>>>>>>>>>>>');
+  console.log(data);
   if (data.goodMorning === '') {
     data.goodMorning = 'Olar'
   }
