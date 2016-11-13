@@ -1,7 +1,7 @@
 module.exports = function(data) {
   console.log('before >>>>>>>>>>>>>>>>');
   console.log(data);
-  if (data.goodMorning === '') {
+  if (data.goodMorning === undefined || data.goodMorning === null || data.goodMorning === '') {
     data.goodMorning = 'Olar'
   }
 
