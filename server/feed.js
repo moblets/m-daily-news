@@ -1,10 +1,13 @@
 module.exports = function(data) {
-  var news = data.news;
+  if (data.goodMorning === '') {
+    data.goodMorning = 'Olar'
+  }
 
   var today = new Date();
   today.setUTCHours(0, 0, 0, 0);
   data.today = today;
 
+  var news = data.news;
   for (var i = news.length - 1; i >= 0; i--) {
     var date = new Date(news[i].formatedDate);
 

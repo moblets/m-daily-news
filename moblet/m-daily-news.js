@@ -4,8 +4,7 @@ module.exports = {
   style: "m-daily-news.less",
   template: 'm-daily-news.html',
   i18n: {
-    pt: "lang/pt-BR.json",
-    en: "lang/en-US.json"
+    pt: "lang/pt-BR.json"
   },
   link: function() {},
   controller: function(

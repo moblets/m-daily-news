@@ -75,8 +75,7 @@
     },
     {
       "name": "bye",
-      "type": "text",
-      "required": true
+      "type": "text"
     },
     {
       "name": "noNews",
