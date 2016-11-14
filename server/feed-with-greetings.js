@@ -4,12 +4,41 @@ module.exports = function(data) {
   data.today = today;
 
   var news = data.news;
+  // Insert default values and set greetings object
+  news[0] = {
+    type: 'greetings',
+    id: today.getTime(),
+    date: today,
+    morning: {
+      content: (data.goodMorning === undefined || data.goodMorning === '') ?
+                'Bom dia 😀' :
+                data.goodMorning,
+      used: false
+    },
+    afternoon: {
+      content: (data.goodAfternoon === undefined || data.goodAfternoon === '') ?
+                'Boa tarde 😀' :
+                data.goodAfternoon,
+      used: false
+    },
+    evening: {
+      content: (data.goodEvening === undefined || data.goodEvening === '') ?
+                'Boa noite 😀' :
+                data.goodEvening,
+      used: false
+    }
+  };
+  delete data.goodMorning;
+  delete data.goodAfternoon;
+  delete data.goodEvening;
+
   for (var i = news.length - 1; i >= 0; i--) {
     var date = new Date(news[i].formatedDate);
 
     // Only send news for today
     if (date.getTime() === today.getTime()) {
-      news[i] = {
+      news[i + 1] = {
+        type: 'news',
         id: news[i].id,
         date: news[i].formatedDate,
         highlight: {
@@ -46,17 +75,17 @@ module.exports = function(data) {
         }
       };
       // Remove unused "more" news
-      for (var j = news[i].more.entries.length - 1; j >= 0; j--) {
-        if (news[i].more.entries[j].content === "") {
-          news[i].more.entries.splice([j], 1);
+      for (var j = news[i + 1].more.entries.length - 1; j >= 0; j--) {
+        if (news[i + 1].more.entries[j].content === "") {
+          news[i + 1].more.entries.splice([j], 1);
         }
       }
       // If it has no "more" news, delete the "more" object
-      if (news[i].more.entries.length === 0) {
-        delete news[i].more;
+      if (news[i + 1].more.entries.length === 0) {
+        delete news[i + 1].more;
       }
     } else {
-      news.splice([i], 1);
+      news.splice([i + 1], 1);
     }
   }
   return data;

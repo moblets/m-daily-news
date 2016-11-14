@@ -62,6 +62,18 @@
       ]
     },
     {
+      "name": "goodMorning",
+      "type": "text"
+    },
+    {
+      "name": "goodAfternoon",
+      "type": "text"
+    },
+    {
+      "name": "goodEvening",
+      "type": "text"
+    },
+    {
       "name": "bye",
       "type": "text"
     },

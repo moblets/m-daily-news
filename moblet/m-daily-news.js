@@ -73,36 +73,29 @@ module.exports = {
       }, 20);
     };
 
-    var getCurrentGreeting = function() {
-      var type = '';
-      var response = '';
-
-      var curentTime = new Date();
-      var time = curentTime.getHours() * 100 + curentTime.getMinutes();
-      if (time >= 401 && time <= 1200) {
-        type = 'morning';
-      } else if (time >= 1201 && time <= 2000) {
-        type = 'afternoon';
-      } else {
-        type = 'evening';
-      }
-      console.log($scope.data.greetings[type].used);
-      if ($scope.data.greetings[type].used === false) {
-        response = $scope.data.greetings[type].content;
-        $scope.data.greetings[type].used = true;
-        saveData();
-      }
-      console.log(time, response);
-      return response;
-    };
+    // var getCurrentGreeting = function() {
+    //   var type = '';
+    //   var curentTime = new Date();
+    //   var time = curentTime.getHours() * 100 + curentTime.getMinutes();
+    //
+    //   if (time >= 401 && time <= 1200) {
+    //     type = 'morning';
+    //   } else if (time >= 1201 && time <= 2000) {
+    //     type = 'afternoon';
+    //   } else {
+    //     type = 'evening';
+    //   }
+    //
+    //   return type;
+    // };
 
     /**
      * Set the view and update the needed parameters
      */
     var setView = function() {
       if ($scope.data) {
-        $scope.data.greeting = getCurrentGreeting();
-        console.log($scope.data);
+        // $scope.data.greeting = getCurrentGreeting();
+        // console.log($scope.data);
         // Get the theme BG color to use in the bubble arrow
         $scope.bgColor = $mAppDef().load().colors.background_color;
         $scope.error = false;
@@ -131,11 +124,6 @@ module.exports = {
           var newData = data.news.filter(getNewDataFilter);
           for (var i = 0; i < newData.length; i++) {
             $scope.data.news.push(newData[i]);
-          }
-          // Update $scope's greeting with the remote data
-          console.log(data.greetings.date > $scope.data.greetings.date);
-          if (data.greetings.date > $scope.data.greetings.date) {
-            $scope.data.greetings = data.greetings;
           }
         }
       } else {
@@ -173,9 +161,8 @@ module.exports = {
     data with new unique ID
     **/
     getNewDataFilter = function getNewDataFilter(value) {
-      var news = $scope.data.news;
-      for (var i = 0; i < news.length; i++) {
-        if (news[i].id === value.id) {
+      for (var i = 0; i < $scope.data.news.length; i++) {
+        if ($scope.data.news[i].id === value.id) {
           return false;
         }
       }

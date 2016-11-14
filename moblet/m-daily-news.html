@@ -11,9 +11,6 @@
   }
   </style>
     <div class="news">
-      <div>
-        {{data.greeting}}
-      </div>
       <div ng-repeat="(i, n) in data.news">
         <div class="from-them" id="anchor-{{i}}" ng-if="n.highlight.show">
           <span m-bind-html="n.highlight.content" class="n-highlight">
