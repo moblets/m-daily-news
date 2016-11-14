@@ -60,14 +60,6 @@
           "type": "text"
         }
       ]
-    },
-    {
-      "name": "bye",
-      "type": "text"
-    },
-    {
-      "name": "noNews",
-      "type": "text"
     }
   ]
 }
