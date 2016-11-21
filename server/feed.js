@@ -7,7 +7,7 @@ module.exports = function(data) {
       hour12: false,
       timeZone: 'America/Sao_Paulo'
     });
-  today.setUTCHours(0, 0, 0, 0);
+  // today.setUTCHours(0, 0, 0, 0);
   data.today = today;
   data.newsDate = [];
   var news = data.news;
