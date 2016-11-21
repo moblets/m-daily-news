@@ -1,24 +1,12 @@
 module.exports = function(data) {
-  var today = new Date()
-    .toLocaleString(
-      'pt-BR',
-    {
-      hour: '2-digit',
-      hour12: false,
-      timeZone: 'America/Sao_Paulo'
-    });
-  // today.setUTCHours(0, 0, 0, 0);
+  var today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
   data.today = today;
-  data.newsDate = [];
+
   var news = data.news;
   for (var i = news.length - 1; i >= 0; i--) {
     var date = new Date(news[i].formatedDate);
-    data.newsDate[i] = {
-      date: date,
-      dateGetTime: date.getTime(),
-      today: today,
-      todayGetTime: today.getTime()
-    };
+
     console.log(date.getTime(), today.getTime());
     // Only send news for today
     if (date.getTime() === today.getTime()) {

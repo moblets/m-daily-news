@@ -28,9 +28,6 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "dependencies": {
-    "js-sha1": "^0.3.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/moblets/m-daily-news.git"
