@@ -1,6 +1,10 @@
 module.exports = function(data) {
-  var today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
+  var spDate = new Date().toLocaleString(
+    'en-US',
+    {
+      timeZone: 'America/Sao_Paulo'
+    });
+  var today = new Date(spDate.split(',')[0] + ' 00:00:00 GMT-0000');
   data.today = today;
 
   var news = data.news;
