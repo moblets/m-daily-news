@@ -1,5 +1,12 @@
 module.exports = function(data) {
-  var today = new Date();
+  var today = new Date()
+    .toLocaleString(
+      'pt-BR',
+    {
+      hour: '2-digit',
+      hour12: false,
+      timeZone: 'America/Sao_Paulo'
+    });
   today.setUTCHours(0, 0, 0, 0);
   data.today = today;
   data.newsDate = [];
