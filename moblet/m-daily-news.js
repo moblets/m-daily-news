@@ -49,11 +49,13 @@ module.exports = {
             console.error(error);
             callback([]);
           }
-        );
+      );
     };
 
     var saveData = function() {
-      $mDataLoader.saveCache($scope.moblet.id, $scope.data, {list: 'news'});
+      $mDataLoader.saveCache($scope.moblet, $scope.data, {
+        list: 'news'
+      });
     };
 
     var scrollTo = function(id, subId) {
@@ -135,9 +137,10 @@ module.exports = {
      * Initiate the daily news moblet:
      */
     var init = function() {
+      console.log('init');
       $scope.isLoading = true;
       // Try to load data from local storage
-      $scope.data = $mDataLoader.fromLocal($scope.moblet.id);
+      $scope.data = $mDataLoader.fromLocal($scope.moblet);
       // Load data from the API
       loadInstanceData(function(remoteData) {
         // Concatenate the remoteData loaded from the API with the local storage set in $scope
