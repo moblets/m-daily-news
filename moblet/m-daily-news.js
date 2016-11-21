@@ -133,13 +133,13 @@ module.exports = {
             $scope.data = $scope.newData;
             isData = true;
           }
-        } else if (!$scope.data) {
-          // No local data and no news from NoRMA
+        // Local data found
+        } else if ($scope.data) {
+          isData = true;
+        // No local data and no news from NoRMA
+        } else {
           helpers.error('no data');
           isData = false;
-        } else {
-          // Local data found
-          isData = true;
         }
         return isData;
       }
@@ -189,7 +189,6 @@ module.exports = {
      * Initiate the daily news moblet:
      */
     var init = function() {
-      console.debug('init');
       // Set general status
       $scope.isLoading = true;
       appModel.loadInstanceData(false)
