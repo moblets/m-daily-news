@@ -1,10 +1,11 @@
 <m-moblet
-  init="init"
-  is-loading="isLoading"
-  class="bg"
-  inner-scroll="true"
-  unavaliable="error">
-  <m-content init="init">
+init="init"
+is-loading="isLoading"
+class="bg"
+inner-scroll="true"
+unavaliable="error"
+>
+  <m-content>
   <style>
   .from-them::after, .from-me::after {
     background: {{bgColor}};
@@ -12,78 +13,107 @@
   </style>
     <div class="news">
       <div ng-repeat="(i, n) in data.news">
-        <div class="from-them" id="anchor-{{i}}" ng-if="n.highlight.show">
-          <span m-bind-html="n.highlight.content" class="n-highlight">
-          </span>
-          <a
-            ng-if="n.highlight.link"
+        <div
+        ng-if="n.highlight.show"
+        class="from-them"
+        id="anchor-{{i}}"
+        >
+          <div
+          m-bind-html="n.highlight.content"
+          class="n-highlight">
+          </div>
+          <div>
+            <a
+            ng-if="n.highlight.link && n.highlight.link !== ''"
             class="news-link"
             href="{{n.highlight.link}}"
-            target="_blank">
-            ver mais
-          </a>
+            target="_blank"
+            >
+              ver mais
+            </a>
+          </div>
         </div>
         <!-- MORE -->
-        <div ng-if="n.highlight.show &&
-                    n.more &&
-                    n.more.used === false &&
-                    n.next.used === false"
-          class="answers" ng-click="readMore(i)">
+        <div
+        ng-if="n.highlight.show &&
+               n.more &&
+               n.more.used === false &&
+               n.next.used === false"
+        ng-click="readMore(i)"
+        class="answers"
+        >
           {{n.more.content}}
         </div>
         <!-- NEXT-->
         <div
-          ng-if="n.highlight.show &&
-                  i < data.news.length - 1 &&
-                  n.next &&
-                  (!n.more || n.more.used === false) &&
-                  n.next.used === false"
-          class="answers" ng-click="showNext(i)">
+        ng-if="n.highlight.show &&
+               i < data.news.length - 1 &&
+               n.next &&
+               (!n.more || n.more.used === false) &&
+               n.next.used === false"
+        ng-click="showNext(i)"
+        class="answers"
+        >
             {{n.next.content}}
         </div>
         <div
-          ng-if="n.highlight.show &&
-                  n.next &&
-                  (!n.more || n.more.used === false) &&
-                  n.next.used === true"
-          class="from-me">
-            {{n.next.content}}
+        ng-if="n.highlight.show &&
+               n.next &&
+               (!n.more || n.more.used === false) &&
+               n.next.used === true"
+        class="from-me"
+        >
+          {{n.next.content}}
         </div>
         <!-- SHOW MORE WERE USED -->
         <div
-          ng-if="n.highlight.show &&
-                  n.more &&
-                  n.more.used === true">
+        ng-if="n.highlight.show &&
+               n.more &&
+               n.more.used === true"
+        >
           <div class="from-me">
             {{n.more.content}}
           </div>
-          <div ng-repeat="(j, more) in n.more.entries" class="n">
-    	      <div class="from-them" id="anchor-{{i}}-{{j}}">
-    	        <span m-bind-html="more.content" class="n-highlight">
+          <div
+          ng-repeat="(j, more) in n.more.entries"
+          class="n"
+          >
+    	      <div
+            class="from-them"
+            id="anchor-{{i}}-{{j}}"
+            >
+    	        <span
+              m-bind-html="more.content"
+              class="n-highlight"
+              >
               </span>
               <a
-                ng-if="more.content.link"
-                class="n-link"
-                href="{{more.content.link}}"
-                target="_blank">
+              ng-if="more.link && more.link !== ''"
+              class="n-link"
+              href="{{more.content.link}}"
+              target="_blank"
+              >
                 ver mais
               </a>
     	      </div>
           </div>
           <div
-            ng-if="n.highlight.show &&
-                    n.next &&
-                    i < data.news.length - 1 &&
-                    n.next.used === false"
-            class="answers" ng-click="showNext(i)">
-              {{n.next.content}}
+          ng-if="n.highlight.show &&
+                 n.next &&
+                 i < data.news.length - 1 &&
+                 n.next.used === false"
+          ng-click="showNext(i)"
+          class="answers"
+          >
+            {{n.next.content}}
           </div>
           <div
-            ng-if="n.highlight.show &&
-                    n.next &&
-                    n.next.used === true"
-            class="from-me">
-              {{n.next.content}}
+          ng-if="n.highlight.show &&
+                 n.next &&
+                 n.next.used === true"
+          class="from-me"
+          >
+            {{n.next.content}}
           </div>
         </div>
       </div>
