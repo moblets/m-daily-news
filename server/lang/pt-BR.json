@@ -4,30 +4,15 @@
     "hint": "Crie notícias diárias no formato de bate papo",
     "description": "Adicione novas notícias com dia e horário para serem mostradas para seus usuários como se fosse um bate papo"
   },
-  "goodMorning": {
-    "label": "Mensagem de bom dia",
-    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 4:01 e 12:00",
-    "placeholder": "Bom dia 😀"
-  },
-  "goodAfternoon": {
-    "label": "Mensagem de boa tarde",
-    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 12:01 e 20:00",
-    "placeholder": "Boa tarde 😀"
-  },
-  "goodEvening": {
-    "label": "Mensagem de boa noite",
-    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página entre 20:01 e 4:00",
-    "placeholder": "Boa noite 😀"
-  },
-  "bye": {
-    "label": "Mensagem de tchau",
-    "hint": "Mensagem final que será mostrada quando acabarem as notícias do dia",
-    "placeholder": "Acabaram as notícias 😅"
+  "welcome": {
+    "label": "Mensagem inicial de boas vindas",
+    "hint": "Mensagem incial que será mostrada quando o usuário acessar a página pela primeira vez",
+    "placeholder": "Seja bem vindo 😀. Veja esse vídeo de boas vindas!"
   },
   "noNews": {
-    "label": "Mensagem quando não tem mais notícias",
+    "label": "Mensagem para quando não há notícias",
     "hint": "Mensagem que será mostrada quando não houverem notícias",
-    "placeholder": "Não tem nenhuma notícia por enquanto 😪"
+    "placeholder": "Não tem nenhuma notícia por enquanto 😪. Volte mais tarde."
   },
   "news": {
     "label": "Lista de notícias",
@@ -69,42 +54,42 @@
     "hint": "Insira as notícias relacionadas",
     "list_button": "Adicionar notícia relacionada"
   },
-  "entries_content_1": {
+  "entriesContent1": {
     "label": "Notícia relacionada 1",
     "hint": "Insira a notícias relacionada 1",
     "placeholder": "Notícia relacionada 1"
   },
-  "entries_link_1": {
+  "entriesLink1": {
     "label": "Link notícia relacionada 1",
     "hint": "Insira se houver um link para a notícia",
     "placeholder": "http://noticias/noticia-relacionada"
   },
-  "entries_content_2": {
+  "entriesContent2": {
     "label": "Notícia relacionada 2",
     "hint": "Insira a notícias relacionada 2",
     "placeholder": "Notícia relacionada 2"
   },
-  "entries_link_2": {
+  "entriesLink2": {
     "label": "Link notícia relacionada 2",
     "hint": "Insira se houver um link para a notícia",
     "placeholder": "http://noticias/noticia-relacionada"
   },
-  "entries_content_3": {
+  "entriesContent3": {
     "label": "Notícia relacionada 3",
     "hint": "Insira a notícias relacionada 3",
     "placeholder": "Notícia relacionada 3"
   },
-  "entries_link_3": {
+  "entriesLink3": {
     "label": "Link notícia relacionada 3",
     "hint": "Insira se houver um link para a notícia",
     "placeholder": "http://noticias/noticia-relacionada"
   },
-  "entries_content_4": {
+  "entriesContent4": {
     "label": "Notícia relacionada 4",
     "hint": "Insira a notícias relacionada 4",
     "placeholder": "Notícia relacionada 4"
   },
-  "entries_link_4": {
+  "entriesLink4": {
     "label": "Link notícia relacionada 4",
     "hint": "Insira se houver um link para a notícia",
     "placeholder": "http://noticias/noticia-relacionada"

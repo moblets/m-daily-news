@@ -12,7 +12,16 @@ unavaliable="error"
   }
   </style>
     <div class="news">
-      <div ng-repeat="(i, n) in data.news">
+      <div
+      class="from-them"
+      >
+        <div
+        ng-if="data.showWelcome"
+        m-bind-html="data.welcome"
+        class="n-highlight">
+        </div>
+      </div>
+      <div ng-repeat="(i, n) in data.news" class="n">
         <div
         ng-if="n.highlight.show"
         class="from-them"
@@ -38,6 +47,7 @@ unavaliable="error"
         ng-if="n.highlight.show &&
                n.more &&
                n.more.used === false &&
+               n.next.hide === false &&
                n.next.used === false"
         ng-click="readMore(i)"
         class="answers"
@@ -50,6 +60,7 @@ unavaliable="error"
                i < data.news.length - 1 &&
                n.next &&
                (!n.more || n.more.used === false) &&
+               n.next.hide === false &&
                n.next.used === false"
         ng-click="showNext(i)"
         class="answers"
@@ -60,6 +71,7 @@ unavaliable="error"
         ng-if="n.highlight.show &&
                n.next &&
                (!n.more || n.more.used === false) &&
+               n.next.hide === false &&
                n.next.used === true"
         class="from-me"
         >
@@ -101,6 +113,7 @@ unavaliable="error"
           ng-if="n.highlight.show &&
                  n.next &&
                  i < data.news.length - 1 &&
+                 n.next.hide === false &&
                  n.next.used === false"
           ng-click="showNext(i)"
           class="answers"
@@ -110,6 +123,7 @@ unavaliable="error"
           <div
           ng-if="n.highlight.show &&
                  n.next &&
+                 n.next.hide === false &&
                  n.next.used === true"
           class="from-me"
           >

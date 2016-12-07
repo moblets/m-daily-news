@@ -28,38 +28,48 @@
           "required": true
         },
         {
-          "name": "entries_content_1",
+          "name": "entriesContent1",
           "type": "rich-text"
         },
         {
-          "name": "entries_link_1",
+          "name": "entriesLink1",
           "type": "text"
         },
         {
-          "name": "entries_content_2",
+          "name": "entriesContent2",
           "type": "rich-text"
         },
         {
-          "name": "entries_link_2",
+          "name": "entriesLink2",
           "type": "text"
         },
         {
-          "name": "entries_content_3",
+          "name": "entriesContent3",
           "type": "rich-text"
         },
         {
-          "name": "entries_link_3",
+          "name": "entriesLink3",
           "type": "text"
         },
         {
-          "name": "entries_content_4",
+          "name": "entriesContent4",
           "type": "rich-text"
         },
         {
-          "name": "entries_link_4",
+          "name": "entriesLink4",
           "type": "text"
         }
       ]
+    },
+    {
+      "name": "welcome",
+      "type": "rich-text",
+      "required": true
+    },
+    {
+      "name": "noNews",
+      "type": "rich-text",
+      "required": true
     }
   ]
 }

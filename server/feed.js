@@ -7,6 +7,8 @@ module.exports = function(data) {
   var today = new Date(spDate.split(',')[0] + ' 00:00:00 GMT-0000');
   data.today = today;
 
+  data.showWelcome = true;
+
   var news = data.news;
   for (var i = news.length - 1; i >= 0; i--) {
     var date = new Date(news[i].formatedDate);
@@ -27,26 +29,27 @@ module.exports = function(data) {
           used: false,
           entries: [
             {
-              content: news[i].entries_content_1,
-              link: news[i].entries_link_1
+              content: news[i].entriesContent1,
+              link: news[i].entriesLink1
             },
             {
-              content: news[i].entries_content_2,
-              link: news[i].entries_link_2
+              content: news[i].entriesContent2,
+              link: news[i].entriesLink2
             },
             {
-              content: news[i].entries_content_3,
-              link: news[i].entries_link_3
+              content: news[i].entriesContent3,
+              link: news[i].entriesLink3
             },
             {
-              content: news[i].entries_content_4,
-              link: news[i].entries_link_4
+              content: news[i].entriesContent4,
+              link: news[i].entriesLink4
             }
           ]
         },
         next: {
           content: news[i].next,
-          used: false
+          used: false,
+          hide: false
         }
       };
       // Remove unused "more" news

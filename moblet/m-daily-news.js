@@ -15,6 +15,8 @@ module.exports = {
     $state,
     $stateParams,
     $mDataLoader,
+    $mContextualActions,
+    $mAlert,
     $ionicScrollDelegate,
     $location,
     $localStorage,
@@ -26,7 +28,6 @@ module.exports = {
         console.error(err);
         $scope.isLoading = false;
         $scope.error = true;
-        $scope.noContent = true;
       },
       /**
       Filter function to get data that is not in the local storage
@@ -51,25 +52,49 @@ module.exports = {
         $rootScope.$broadcast('scroll.refreshComplete');
 
         $timeout(function() {
-          console.log('resize scroll');
           $ionicScrollDelegate.resize();
         }, 10);
 
         $timeout(function() {
-          console.log('move to anchor', id);
           var top = document.getElementById(id).offsetTop - 10;
           $ionicScrollDelegate.scrollTo(0, top, true);
           $rootScope.$broadcast('scroll.refreshComplete');
         }, 20);
+      },
+      cleanScreen: function() {
+      },
+      /**
+       * Create the clean screen contextual action (icon in header)
+       */
+      setClearContextualAction: function() {
+        var icons = ["ion-ios-trash", "ion-trash-b"];
+        $mContextualActions.add(
+          $scope.page.page_id,
+          "cart",
+          icons,
+          "contextual",
+          function() {
+            $mAlert
+              .dialog(
+                "Limpar histórico?",
+                'Você tem certeza que deseja limpar o histórico? Esta ação' +
+                'não pode ser desfeita',
+                ['Cancelar', 'Limpar']
+              )
+              .then(function() {
+                helpers.cleanScreen();
+              });
+          }
+        );
       }
     };
 
     var appModel = {
       /**
-       * Load the instance data from NoRMA and save it in $scope.newData
+       * Load the instance data from NoRMA and save it in $scope.remoteData
        * @return {Promise}       Return a promise
        */
-      loadInstanceData: function() {
+      loadRemoteData: function() {
         var deferred = $q.defer();
 
         var dataLoadOptions = {
@@ -81,7 +106,7 @@ module.exports = {
 
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
-            $scope.newData = data;
+            $scope.remoteData = data;
             deferred.resolve();
           })
           .catch(function(err) {
@@ -95,80 +120,113 @@ module.exports = {
        * Load the localStorage saved data and saves it in $scope.data
        */
       loadLocalData: function() {
-        var localData = $mDataLoader.fromLocal($scope.moblet);
-
-        if (localData === undefined) {
-          $scope.data = false;
-        } else {
-          $scope.data = localData;
-        }
+        $scope.data = $mDataLoader.fromLocal($scope.moblet.instance.id);
       },
 
       saveData: function() {
-        $mDataLoader.saveCache($scope.moblet, $scope.data, {
+        $mDataLoader.saveCache($scope.moblet.instance.id, $scope.data, {
           list: 'news'
         });
       },
 
-      /**
-        Concatenate "data" with the data saved in the local storage
-        @return {Boolean}  True if any data was found
-      **/
-      setScopeData: function() {
-        var isData = false;
-        // Check if the remote data has news
-        if ($scope.newData.news.length > 0) {
-          // Set the first element to be shown
-          $scope.newData.news[0].highlight.show = true;
-          // Check if a local data exists
-          if ($scope.data) {
-            // Data already set in local storage
-            var newData = $scope.newData.news.filter(helpers.getNewDataFilter);
-            for (var i = 0; i < newData.length; i++) {
-              $scope.data.news.push(newData[i]);
-            }
-            isData = true;
-          } else {
-            // No data on local storage
-            $scope.data = $scope.newData;
-            isData = true;
+      addNoNews: function() {
+        console.log('adding "no news" to stream');
+        console.log($scope.data);
+        var noNews = {
+          date: $scope.data.today,
+          highlight: {
+            content: $scope.data.noNews,
+            show: true,
+            used: true,
+            noNews: true
           }
-        // Local data found
-        } else if ($scope.data) {
-          isData = true;
-        // No local data and no news from NoRMA
-        } else {
-          helpers.error('no data');
-          isData = false;
+        };
+        var lastIndex = $scope.data.news.length === 0 ?
+                        0 :
+                        $scope.data.news.length - 1;
+
+        // No news
+        if ($scope.data.news[lastIndex] === undefined) {
+          $scope.data.news.push(noNews);
+        // Check if noNews has already been set
+        } else if ($scope.data.news[lastIndex].highlight.noNews === undefined) {
+          $scope.data.news[lastIndex].highlight.used = true;
+          $scope.data.news[lastIndex].next.used = true;
+          $scope.data.news[lastIndex].next.hide = true;
+          $scope.data.news.push(noNews);
         }
-        return isData;
+        appModel.saveData();
+      },
+      /**
+       * Concatenate "data" with the data saved in the local storage
+       **/
+      setScopeData: function() {
+        console.log($scope.data);
+        console.log($scope.remoteData);
+        // Check if no local data exists
+        if ($scope.data === undefined) {
+          $scope.data = $scope.remoteData;
+
+          if ($scope.data.news.length === 0) {
+            appModel.addNoNews();
+          } else {
+            $scope.data.news[0].highlight.show = true;
+          }
+          appModel.saveData();
+        // Local data exists. Update $scope.data
+        } else {
+          $scope.data.noNews = $scope.remoteData.noNews;
+          $scope.data.today = $scope.remoteData.today;
+
+          // Check if there are news today
+          if ($scope.remoteData.news.length > 0) {
+            // Get only new remote data
+            var newRemoteData = $scope.remoteData.news
+                             .filter(helpers.getNewDataFilter);
+
+            // check if any news today are really new
+            if (newRemoteData.length === 0) {
+              appModel.addNoNews();
+            } else {
+              // If the last news is a "noNews", load the next news and "click"
+              // the "show next"
+              var lastNews = $scope.data.news[$scope.data.news.length - 1];
+              if (lastNews.highlight.noNews) {
+                console.log($scope.data.news);
+                console.log($$scope.data.news[$scope.data.news.length - 2]);
+                // $scope.data.news[$scope.data.news.length - 2].
+              }
+              // Set the first new element to be shown
+              newRemoteData[0].highlight.show = true;
+              for (var i = 0; i < newRemoteData.length; i++) {
+                $scope.data.news.push(newRemoteData[i]);
+              }
+              appModel.saveData();
+            }
+          } else {
+            appModel.addNoNews();
+          }
+        }
       }
     };
 
     var newsConstroller = {
       showView: function() {
-        // Load the local data
-        appModel.loadLocalData();
-        var isData = appModel.setScopeData();
-        if (isData) {
-          // Put functions in the $scope
-          $scope.readMore = newsConstroller.readMore;
-          $scope.showNext = newsConstroller.showNext;
+        appModel.setScopeData();
+        // Put functions in the $scope
+        $scope.readMore = newsConstroller.readMore;
+        $scope.showNext = newsConstroller.showNext;
 
-          // Set error and noContent to false
-          $scope.error = false;
-          $scope.noContent = false;
+        // Set error and noContent to false
+        $scope.error = false;
 
-          // Remove the loader
-          $scope.isLoading = false;
+        // Remove the loader
+        $scope.isLoading = false;
 
-          $ionicScrollDelegate.scrollBottom(true);
+        $ionicScrollDelegate.scrollBottom(true);
 
-          // Broadcast complete refresh
-          $rootScope.$broadcast('scroll.refreshComplete');
-        } else {
-          helpers.error('no data');
-        }
+        // Broadcast complete refresh
+        $rootScope.$broadcast('scroll.refreshComplete');
       },
 
       readMore: function(i) {
@@ -191,11 +249,15 @@ module.exports = {
     var init = function() {
       // Set general status
       $scope.isLoading = true;
-      appModel.loadInstanceData(false)
+      // Make the general functions avalable in the scope
+      $scope.bgColor = $mAppDef().load().colors.background_color;
+      // Add the trash to the header
+      helpers.setClearContextualAction();
+      // Load the local data
+      appModel.loadLocalData();
+      // Load the remote data
+      appModel.loadRemoteData(false)
         .then(function() {
-          // Make the general functions avalable in the scope
-          $scope.bgColor = $mAppDef().load().colors.background_color;
-
           newsConstroller.showView();
         })
         .catch(function(err) {
@@ -204,9 +266,5 @@ module.exports = {
     };
 
     init();
-
-  /**
-   * TODO: if not today news, don't show the action buttons
-   **/
   }
 };
