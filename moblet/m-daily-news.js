@@ -62,6 +62,16 @@ module.exports = {
         }, 20);
       },
       cleanScreen: function() {
+        for (var i = 0; i < $scope.data.news.length; i++) {
+          if ($scope.data.news[i].highlight) {
+            $scope.data.news[i].highlight.used = true;
+            $scope.data.news[i].highlight.show = false;
+          }
+        }
+        $mDataLoader.saveCache($scope.moblet.instance.id, $scope.data, {
+          list: 'news'
+        });
+        console.log($scope.data);
       },
       /**
        * Create the clean screen contextual action (icon in header)
@@ -80,7 +90,7 @@ module.exports = {
                 'Você tem certeza que deseja limpar o histórico? Esta ação' +
                 'não pode ser desfeita',
                 ['Cancelar', 'Limpar']
-              )
+            )
               .then(function() {
                 helpers.cleanScreen();
               });
@@ -142,8 +152,8 @@ module.exports = {
           }
         };
         var lastIndex = $scope.data.news.length === 0 ?
-                        0 :
-                        $scope.data.news.length - 1;
+          0 :
+          $scope.data.news.length - 1;
 
         // No news
         if ($scope.data.news[lastIndex] === undefined) {
@@ -182,7 +192,7 @@ module.exports = {
           if ($scope.remoteData.news.length > 0) {
             // Get only new remote data
             var newRemoteData = $scope.remoteData.news
-                             .filter(helpers.getNewDataFilter);
+              .filter(helpers.getNewDataFilter);
 
             // check if any news today are really new
             if (newRemoteData.length === 0) {
@@ -194,7 +204,7 @@ module.exports = {
               if (lastNews.highlight.noNews) {
                 console.log($scope.data.news);
                 console.log($$scope.data.news[$scope.data.news.length - 2]);
-                // $scope.data.news[$scope.data.news.length - 2].
+              // $scope.data.news[$scope.data.news.length - 2].
               }
               // Set the first new element to be shown
               newRemoteData[0].highlight.show = true;
