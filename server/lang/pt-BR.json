@@ -17,8 +17,7 @@
   "tutorialImages": {
     "label": "Lista de imagens do tutorial (750 x 1334 pixels)",
     "hint": "Lista de imagens que serão exibidas no tutorial",
-    "placeholder": "https://i.imgur.com/czVj1cR.jpg
-    https://i.imgur.com/QJGKnt3.png"
+    "placeholder": "https://i.imgur.com/czVj1cR.jpg\n    https://i.imgur.com/QJGKnt3.png"
   },
   "news": {
     "label": "Lista de notícias",
@@ -28,7 +27,7 @@
   "date": {
     "label": "Data no formato aaaa-mm-dd",
     "hint": "Data da notícia",
-		"error_date": "Formato de data inválida. Por favor, preencha a data no normato aaaa-mm-dd (ano com 4 dígitos - mês com dois dígitos - dia com dois dígitos)",
+    "error_date": "Formato de data inválida. Por favor, preencha a data no normato aaaa-mm-dd (ano com 4 dígitos - mês com dois dígitos - dia com dois dígitos)",
     "placeholder": "2016-10-28"
   },
   "time": {
