@@ -62,16 +62,6 @@
       ]
     },
     {
-      "name": "welcome",
-      "type": "rich-text",
-      "required": true
-    },
-    {
-      "name": "noNews",
-      "type": "rich-text",
-      "required": true
-    },
-    {
       "name": "tutorial01",
       "type": "image"
     },
@@ -102,6 +92,16 @@
     {
       "name": "tutorial08",
       "type": "image"
+    },
+    {
+      "name": "welcome",
+      "type": "rich-text",
+      "required": true
+    },
+    {
+      "name": "noNews",
+      "type": "rich-text",
+      "required": true
     }
   ]
 }
