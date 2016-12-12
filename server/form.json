@@ -62,38 +62,6 @@
       ]
     },
     {
-      "name": "tutorial01",
-      "type": "image"
-    },
-    {
-      "name": "tutorial02",
-      "type": "image"
-    },
-    {
-      "name": "tutorial03",
-      "type": "image"
-    },
-    {
-      "name": "tutorial04",
-      "type": "image"
-    },
-    {
-      "name": "tutorial05",
-      "type": "image"
-    },
-    {
-      "name": "tutorial06",
-      "type": "image"
-    },
-    {
-      "name": "tutorial07",
-      "type": "image"
-    },
-    {
-      "name": "tutorial08",
-      "type": "image"
-    },
-    {
       "name": "welcome",
       "type": "rich-text",
       "required": true
