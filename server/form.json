@@ -70,6 +70,17 @@
       "name": "noNews",
       "type": "rich-text",
       "required": true
+    },
+    {
+        "name": "tutorial",
+        "type": "list",
+        "fields": [
+          {
+            "name": "stepImage",
+            "type": "image",
+            "required": false
+          }
+        ]
     }
   ]
 }
