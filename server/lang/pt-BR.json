@@ -14,6 +14,12 @@
     "hint": "Mensagem que será mostrada quando não houverem notícias",
     "placeholder": "Não tem nenhuma notícia por enquanto 😪. Volte mais tarde."
   },
+  "tutorialImages": {
+    "label": "Lista de imagens do tutorial (750 x 1334 pixels)",
+    "hint": "Lista de imagens que serão exibidas no tutorial",
+    "placeholder": "https://i.imgur.com/czVj1cR.jpg
+    https://i.imgur.com/QJGKnt3.png"
+  },
   "news": {
     "label": "Lista de notícias",
     "hint": "Insira as notícias",
