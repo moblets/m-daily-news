@@ -66,5 +66,10 @@ module.exports = function(data) {
       news.splice([i], 1);
     }
   }
+  if (data.tutorialImages.length > 0) {
+    data.tutorial = data.tutorialImages.split('\n');
+    delete data.tutorialImages;
+  }
+
   return data;
 };

@@ -6,11 +6,20 @@ inner-scroll="true"
 unavaliable="error"
 >
   <m-content>
-  <style>
-  .from-them::after, .from-me::after {
-    background: {{bgColor}};
-  }
-  </style>
+    <style>
+    .from-them::after, .from-me::after {
+      background: {{bgColor}};
+    }
+    </style>
+    <ion-slides
+    ng-if="hasTutorial"
+    options="options"
+    slider="data.slider"
+    >
+      <ion-slide-page ng-repeat="slide in data.tutorial">
+        <div class="full-page"><img src="slide"></div>
+      </ion-slide-page>
+    </ion-slides>
     <div class="news">
       <div
       class="from-them"

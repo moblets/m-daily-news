@@ -13,6 +13,7 @@ module.exports = {
     $filter,
     $timeout,
     $state,
+    $ionicPopover,
     $stateParams,
     $mDataLoader,
     $mContextualActions,
@@ -71,7 +72,6 @@ module.exports = {
         $mDataLoader.saveCache($scope.moblet.instance.id, $scope.data, {
           list: 'news'
         });
-        console.log($scope.data);
       },
       /**
        * Create the clean screen contextual action (icon in header)
@@ -80,22 +80,43 @@ module.exports = {
         var icons = ["ion-ios-trash", "ion-trash-b"];
         $mContextualActions.add(
           $scope.page.page_id,
-          "cart",
+          "clear",
           icons,
           "contextual",
           function() {
             $mAlert
               .dialog(
-                "Limpar histórico?",
-                'Você tem certeza que deseja limpar o histórico? Esta ação' +
-                'não pode ser desfeita',
-                ['Cancelar', 'Limpar']
+                $filter('translate')('m-daily-news-clear_history_title'),
+                $filter('translate')('m-daily-news-clear_history_content'),
+                [
+                  $filter('translate')('m-daily-news-action_cancel'),
+                  $filter('translate')('m-daily-news-clear_history_confirm')
+                ]
             )
               .then(function() {
                 helpers.cleanScreen();
               });
           }
         );
+      },
+      /**
+       * Create the clean screen contextual action (icon in header)
+       */
+      setTutorialContextualAction: function() {
+        console.log($scope.data.tutorial);
+        if ($scope.data.tutorial) {
+          $scope.hasTutorial = false;
+          var icons = ["ion-ios-help", "ion-help-circled"];
+          $mContextualActions.add(
+            $scope.page.page_id,
+            "tutorial",
+            icons,
+            "contextual",
+            function() {
+              $scope.hasTutorial = true;
+            }
+          );
+        }
       }
     };
 
@@ -141,7 +162,6 @@ module.exports = {
 
       addNoNews: function() {
         console.log('adding "no news" to stream');
-        console.log($scope.data);
         var noNews = {
           date: $scope.data.today,
           highlight: {
@@ -171,8 +191,6 @@ module.exports = {
        * Concatenate "data" with the data saved in the local storage
        **/
       setScopeData: function() {
-        console.log($scope.data);
-        console.log($scope.remoteData);
         // Check if no local data exists
         if ($scope.data === undefined) {
           $scope.data = $scope.remoteData;
@@ -201,11 +219,6 @@ module.exports = {
               // If the last news is a "noNews", load the next news and "click"
               // the "show next"
               var lastNews = $scope.data.news[$scope.data.news.length - 1];
-              if (lastNews.highlight.noNews) {
-                console.log($scope.data.news);
-                console.log($$scope.data.news[$scope.data.news.length - 2]);
-              // $scope.data.news[$scope.data.news.length - 2].
-              }
               // Set the first new element to be shown
               newRemoteData[0].highlight.show = true;
               for (var i = 0; i < newRemoteData.length; i++) {
@@ -261,10 +274,11 @@ module.exports = {
       $scope.isLoading = true;
       // Make the general functions avalable in the scope
       $scope.bgColor = $mAppDef().load().colors.background_color;
-      // Add the trash to the header
-      helpers.setClearContextualAction();
       // Load the local data
       appModel.loadLocalData();
+      // Add the contextual buttons
+      helpers.setClearContextualAction();
+      helpers.setTutorialContextualAction();
       // Load the remote data
       appModel.loadRemoteData(false)
         .then(function() {

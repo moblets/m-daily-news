@@ -1,3 +1,10 @@
 {
-  "m-daily-news-read_more": "ver mais"
+  "m-daily-news-read_more": "ver mais",
+  "m-daily-news-clear_history_title": "Limpar histórico?",
+  "m-daily-news-clear_history_content": "Você tem certeza que deseja limpar o histórico? Esta ação não pode ser desfeita.",
+  "m-daily-news-clear_history_confirm": "Limpar",
+  "m-daily-news-show_tutorial_title": "Mostrar tutorial?",
+  "m-daily-news-show_tutorial_content": "Você tem certeza que deseja ver o tutorial?",
+  "m-daily-news-show_tutorial_confirm": "Ver tutorial",
+  "m-daily-news-action_cancel": "Cancelar"
 }
