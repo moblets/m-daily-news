@@ -12,12 +12,15 @@ unavaliable="error"
     }
     </style>
     <ion-slides
-    ng-if="hasTutorial"
+    ng-if="showTutorial"
     options="options"
     slider="data.slider"
+    class="tutorial"
     >
       <ion-slide-page ng-repeat="slide in data.tutorial">
-        <div class="full-page"><img src="slide"></div>
+        <div >
+          <img src="{{ slide }}">
+        </div>
       </ion-slide-page>
     </ion-slides>
     <div class="news">

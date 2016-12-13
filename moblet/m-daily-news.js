@@ -13,7 +13,6 @@ module.exports = {
     $filter,
     $timeout,
     $state,
-    $ionicPopover,
     $stateParams,
     $mDataLoader,
     $mContextualActions,
@@ -65,8 +64,10 @@ module.exports = {
       cleanScreen: function() {
         for (var i = 0; i < $scope.data.news.length; i++) {
           if ($scope.data.news[i].highlight) {
-            $scope.data.news[i].highlight.used = true;
-            $scope.data.news[i].highlight.show = false;
+            if (i + 1 !== $scope.data.news.length || $scope.data.news[i].highlight.noNews !== true) {
+              $scope.data.news[i].highlight.used = true;
+              $scope.data.news[i].highlight.show = false;
+            }
           }
         }
         $mDataLoader.saveCache($scope.moblet.instance.id, $scope.data, {
@@ -104,8 +105,8 @@ module.exports = {
        */
       setTutorialContextualAction: function() {
         console.log($scope.data.tutorial);
-        if ($scope.data.tutorial) {
-          $scope.hasTutorial = false;
+        if ($scope.data.tutorial.length > 0) {
+          $scope.showTutorial = false;
           var icons = ["ion-ios-help", "ion-help-circled"];
           $mContextualActions.add(
             $scope.page.page_id,
@@ -113,7 +114,7 @@ module.exports = {
             icons,
             "contextual",
             function() {
-              $scope.hasTutorial = true;
+              $scope.showTutorial = !$scope.showTutorial;
             }
           );
         }
@@ -162,6 +163,7 @@ module.exports = {
 
       addNoNews: function() {
         console.log('adding "no news" to stream');
+        console.log($scope.data);
         var noNews = {
           date: $scope.data.today,
           highlight: {
@@ -185,6 +187,7 @@ module.exports = {
           $scope.data.news[lastIndex].next.hide = true;
           $scope.data.news.push(noNews);
         }
+        console.log($scope.data);
         appModel.saveData();
       },
       /**
@@ -203,6 +206,7 @@ module.exports = {
           appModel.saveData();
         // Local data exists. Update $scope.data
         } else {
+          $scope.data.tutorial = $scope.remoteData.tutorial;
           $scope.data.noNews = $scope.remoteData.noNews;
           $scope.data.today = $scope.remoteData.today;
 
@@ -278,10 +282,10 @@ module.exports = {
       appModel.loadLocalData();
       // Add the contextual buttons
       helpers.setClearContextualAction();
-      helpers.setTutorialContextualAction();
       // Load the remote data
       appModel.loadRemoteData(false)
         .then(function() {
+          helpers.setTutorialContextualAction();
           newsConstroller.showView();
         })
         .catch(function(err) {
