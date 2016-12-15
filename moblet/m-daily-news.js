@@ -104,8 +104,8 @@ module.exports = {
        * Create the clean screen contextual action (icon in header)
        */
       setTutorialContextualAction: function() {
-        console.log($scope.data.tutorial);
-        if ($scope.data.tutorial.length > 0) {
+        console.log($scope.remoteData.tutorial);
+        if ($scope.remoteData.tutorial.length > 0) {
           $scope.showTutorial = false;
           var icons = ["ion-ios-help", "ion-help-circled"];
           $mContextualActions.add(
