@@ -18,9 +18,7 @@ unavaliable="error"
     class="tutorial"
     >
       <ion-slide-page ng-repeat="slide in data.tutorial">
-        <div >
-          <img src="{{ slide }}">
-        </div>
+        <div class="tutorial" style="background-image: url({{ slide }})"></div>
       </ion-slide-page>
     </ion-slides>
     <div class="news">
@@ -114,7 +112,7 @@ unavaliable="error"
               <a
               ng-if="more.link && more.link !== ''"
               class="n-link"
-              href="{{more.content.link}}"
+              href="{{more.link}}"
               target="_blank"
               translate="m-daily-news-read_more"
               >
