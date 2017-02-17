@@ -25,14 +25,14 @@
     "list_button": "Adicionar notícia diária"
   },
   "date": {
-    "label": "Data no formato aaaa-mm-dd",
-    "hint": "Data da notícia",
-    "error_date": "Formato de data inválida. Por favor, preencha a data no normato aaaa-mm-dd (ano com 4 dígitos - mês com dois dígitos - dia com dois dígitos)",
-    "placeholder": "2016-10-28"
+    "label": "Data de publicação",
+    "hint": "Data de publicação da notícia",
+    "error_date": "Formato de data ou horário inválidos."
   },
   "time": {
-    "label": "Horário",
-    "hint": "Hora da notícia"
+    "label": "Horário de publicação",
+    "hint": "Horário de publicação da notícia",
+    "error_time": "Formato de data ou horário inválidos."
   },
   "highlight": {
     "label": "Destaque",

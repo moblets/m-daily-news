@@ -11,7 +11,12 @@
         },
         {
           "name": "date",
-          "type": "text",
+          "type": "date",
+          "required": true
+        },
+        {
+          "name": "time",
+          "type": "time",
           "required": true
         },
         {

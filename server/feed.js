@@ -1,4 +1,5 @@
 module.exports = function(data) {
+  console.log(data);
   var spDate = new Date().toLocaleString(
     'en-US',
     {
