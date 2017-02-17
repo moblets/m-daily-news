@@ -64,7 +64,8 @@ module.exports = {
       cleanScreen: function() {
         for (var i = 0; i < $scope.data.news.length; i++) {
           if ($scope.data.news[i].highlight) {
-            if (i + 1 !== $scope.data.news.length || $scope.data.news[i].highlight.noNews !== true) {
+            if (i + 1 !== $scope.data.news.length ||
+            $scope.data.news[i].highlight.noNews !== true) {
               $scope.data.news[i].highlight.used = true;
               $scope.data.news[i].highlight.show = false;
             }
@@ -89,10 +90,10 @@ module.exports = {
               .dialog(
                 $filter('translate')('m-daily-news-clear_history_title'),
                 $filter('translate')('m-daily-news-clear_history_content'),
-                [
-                  $filter('translate')('m-daily-news-action_cancel'),
-                  $filter('translate')('m-daily-news-clear_history_confirm')
-                ]
+              [
+                $filter('translate')('m-daily-news-action_cancel'),
+                $filter('translate')('m-daily-news-clear_history_confirm')
+              ]
             )
               .then(function() {
                 helpers.cleanScreen();
@@ -294,5 +295,30 @@ module.exports = {
     };
 
     init();
+
+    var pauseFunc = 'pauseVideo';
+    $scope.pauseVideo = function() {
+      var iframes = document.getElementsByTagName("iframe");
+      for (var i = 0; i < iframes.length; i++) {
+        var iframe = iframes[i].contentWindow;
+        console.log(iframe);
+        iframe.postMessage('{"event":"command","func":"' + pauseFunc +
+        '","args":""}', '*');
+      }
+    };
+
+    $scope.$on('$stateChangeStart', function() {
+      $scope.pauseVideo();
+    });
+
+    // var playFunc = 'playVideo';
+    // $scope.playVideo = function() {
+    //   var iframe = document.getElementsByTagName("iframe")[0].contentWindow;
+    //   iframe.postMessage('{"event":"command","func":"' + playFunc + '","args":""}', '*');
+    // };
+    //
+    // $scope.$on('$ionicView.enter', function() {
+    //   $scope.playVideo();
+    // });
   }
 };
