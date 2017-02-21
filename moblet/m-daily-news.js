@@ -20,14 +20,14 @@ module.exports = {
     $ionicScrollDelegate,
     $location,
     $localStorage,
-    $mAppDef,
+    $mTheme,
     $q
   ) {
     var helpers = {
       error: function(err) {
         console.error(err);
-        $scope.isLoading = false;
-        $scope.error = true;
+        $scope.moblet.isLoading = false;
+        $scope.moblet.noContent = true;
       },
       /**
       Filter function to get data that is not in the local storage
@@ -105,7 +105,7 @@ module.exports = {
        * Create the clean screen contextual action (icon in header)
        */
       setTutorialContextualAction: function() {
-        console.log($scope.remoteData.tutorial);
+        // console.log($scope.remoteData.tutorial);
         if ($scope.remoteData.tutorial.length > 0) {
           $scope.showTutorial = false;
           var icons = ["ion-ios-help", "ion-help-circled"];
@@ -163,8 +163,8 @@ module.exports = {
       },
 
       addNoNews: function() {
-        console.log('adding "no news" to stream');
-        console.log($scope.data);
+        // console.log('adding "no news" to stream');
+        // console.log($scope.data);
         var noNews = {
           date: $scope.data.today,
           highlight: {
@@ -188,7 +188,7 @@ module.exports = {
           $scope.data.news[lastIndex].next.hide = true;
           $scope.data.news.push(noNews);
         }
-        console.log($scope.data);
+        // console.log($scope.data);
         appModel.saveData();
       },
       /**
@@ -223,7 +223,7 @@ module.exports = {
             } else {
               // If the last news is a "noNews", load the next news and "click"
               // the "show next"
-              var lastNews = $scope.data.news[$scope.data.news.length - 1];
+              // var lastNews = $scope.data.news[$scope.data.news.length - 1];
               // Set the first new element to be shown
               newRemoteData[0].highlight.show = true;
               for (var i = 0; i < newRemoteData.length; i++) {
@@ -246,10 +246,10 @@ module.exports = {
         $scope.showNext = newsConstroller.showNext;
 
         // Set error and noContent to false
-        $scope.error = false;
+        $scope.moblet.noContent = false;
 
         // Remove the loader
-        $scope.isLoading = false;
+        $scope.moblet.isLoading = false;
 
         $ionicScrollDelegate.scrollBottom(true);
 
@@ -276,9 +276,9 @@ module.exports = {
      */
     var init = function() {
       // Set general status
-      $scope.isLoading = true;
+      $scope.moblet.isLoading = true;
       // Make the general functions avalable in the scope
-      $scope.bgColor = $mAppDef().load().colors.background_color;
+      $scope.bgColor = $mTheme.colors.secundary;
       // Load the local data
       appModel.loadLocalData();
       // Add the contextual buttons
@@ -301,7 +301,7 @@ module.exports = {
       var iframes = document.getElementsByTagName("iframe");
       for (var i = 0; i < iframes.length; i++) {
         var iframe = iframes[i].contentWindow;
-        console.log(iframe);
+        // console.log(iframe);
         iframe.postMessage('{"event":"command","func":"' + pauseFunc +
         '","args":""}', '*');
       }
