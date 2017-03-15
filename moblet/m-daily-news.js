@@ -4,7 +4,8 @@ module.exports = {
   style: "m-daily-news.less",
   template: 'm-daily-news.html',
   i18n: {
-    pt: "lang/pt-BR.json"
+    pt: "lang/pt-BR.json",
+    en: "lang/en-US.json"
   },
   link: function() {},
   controller: function(
@@ -15,12 +16,14 @@ module.exports = {
     $state,
     $stateParams,
     $mDataLoader,
-    $mContextualActions,
+    $mHeaderAction,
     $mAlert,
+    $mWebview,
     $ionicScrollDelegate,
     $location,
     $localStorage,
     $mTheme,
+    $sce,
     $q
   ) {
     var helpers = {
@@ -62,6 +65,7 @@ module.exports = {
         }, 20);
       },
       cleanScreen: function() {
+        console.log('cleaning');
         for (var i = 0; i < $scope.data.news.length; i++) {
           if ($scope.data.news[i].highlight) {
             if (i + 1 !== $scope.data.news.length ||
@@ -79,13 +83,14 @@ module.exports = {
        * Create the clean screen contextual action (icon in header)
        */
       setClearContextualAction: function() {
-        var icons = ["ion-ios-trash", "ion-trash-b"];
-        $mContextualActions.add(
-          $scope.page.page_id,
-          "clear",
-          icons,
-          "contextual",
+        $mHeaderAction.register(
+          "mDailyNewsClear",
+          {
+            ios: "ion-ios-trash",
+            android: "ion-trash-b"
+          },
           function() {
+            console.log('clear');
             $mAlert
               .dialog(
                 $filter('translate')('m-daily-news-clear_history_title'),
@@ -96,29 +101,49 @@ module.exports = {
               ]
             )
               .then(function() {
+                console.log('clean screen');
                 helpers.cleanScreen();
               });
-          }
-        );
+          },
+          $stateParams.pageId);
       },
       /**
        * Create the clean screen contextual action (icon in header)
        */
       setTutorialContextualAction: function() {
-        // console.log($scope.remoteData.tutorial);
         if ($scope.remoteData.tutorial.length > 0) {
-          $scope.showTutorial = false;
-          var icons = ["ion-ios-help", "ion-help-circled"];
-          $mContextualActions.add(
-            $scope.page.page_id,
-            "tutorial",
-            icons,
-            "contextual",
-            function() {
+          $mHeaderAction.register(
+          "mDailyNewsTutorial",
+            {
+              ios: "ion-ios-help",
+              android: "ion-help-circled"
+            },
+          function() {
+            console.log('tut');
+            $timeout(function() {
               $scope.showTutorial = !$scope.showTutorial;
-            }
-          );
+              if ($scope.showTutorial) {
+                $ionicScrollDelegate.scrollTop(false);
+              } else {
+                $ionicScrollDelegate.scrollBottom(false);
+              }
+              $rootScope.$broadcast('scroll.refreshComplete');
+            }, 10);
+          },
+          $stateParams.pageId);
         }
+      },
+      openLink: function(link) {
+        if (typeof cordova === "undefined") {
+          $mWebview.open(0, link, "_system", undefined, "", "", "", "", true);
+        } else {
+          cordova.InAppBrowser.open(link, "_system");
+        }
+      },
+      trustedContent: function(url) {
+        var UrlRegEx = /(youtube.com\/embed\/[A-z0-9\-._]*)/;
+        var res = url.replace(UrlRegEx, '$1?rel=0&showinfo=0');
+        return $sce.trustAsHtml(res);
       }
     };
 
@@ -163,8 +188,6 @@ module.exports = {
       },
 
       addNoNews: function() {
-        // console.log('adding "no news" to stream');
-        // console.log($scope.data);
         var noNews = {
           date: $scope.data.today,
           highlight: {
@@ -188,7 +211,6 @@ module.exports = {
           $scope.data.news[lastIndex].next.hide = true;
           $scope.data.news.push(noNews);
         }
-        // console.log($scope.data);
         appModel.saveData();
       },
       /**
@@ -277,16 +299,32 @@ module.exports = {
     var init = function() {
       // Set general status
       $scope.moblet.isLoading = true;
+
       // Make the general functions avalable in the scope
       $scope.bgColor = $mTheme.colors.secundary;
+
+      // Put functions in the $scope
+      $scope.trustedContent = helpers.trustedContent;
+      $scope.openLink = helpers.openLink;
+
+      // Pause the video when leaving the view
+      $scope.$on('$stateChangeStart', function() {
+        $scope.pauseVideo();
+      });
+
       // Load the local data
       appModel.loadLocalData();
+
       // Add the contextual buttons
       helpers.setClearContextualAction();
+
       // Load the remote data
       appModel.loadRemoteData(false)
         .then(function() {
+          // Add the contextual buttons
+          $scope.showTutorial = false;
           helpers.setTutorialContextualAction();
+
           newsConstroller.showView();
         })
         .catch(function(err) {
@@ -296,29 +334,13 @@ module.exports = {
 
     init();
 
-    var pauseFunc = 'pauseVideo';
     $scope.pauseVideo = function() {
       var iframes = document.getElementsByTagName("iframe");
       for (var i = 0; i < iframes.length; i++) {
         var iframe = iframes[i].contentWindow;
-        // console.log(iframe);
-        iframe.postMessage('{"event":"command","func":"' + pauseFunc +
-        '","args":""}', '*');
+        iframe.postMessage('{"event":"command","func":"pauseVideo", ' +
+        '"args":""}', '*');
       }
     };
-
-    $scope.$on('$stateChangeStart', function() {
-      $scope.pauseVideo();
-    });
-
-    // var playFunc = 'playVideo';
-    // $scope.playVideo = function() {
-    //   var iframe = document.getElementsByTagName("iframe")[0].contentWindow;
-    //   iframe.postMessage('{"event":"command","func":"' + playFunc + '","args":""}', '*');
-    // };
-    //
-    // $scope.$on('$ionicView.enter', function() {
-    //   $scope.playVideo();
-    // });
   }
 };

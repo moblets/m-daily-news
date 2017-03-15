@@ -21,13 +21,13 @@ unavaliable="error"
         <div class="tutorial" style="background-image: url({{ slide }})"></div>
       </ion-slide-page>
     </ion-slides>
-    <div class="news">
+    <div class="news" ng-if="!showTutorial">
       <div
       class="from-them"
       >
         <div
         ng-if="data.showWelcome"
-        m-bind-html="data.welcome"
+        ng-bind-html="trustedContent(data.welcome)"
         class="n-highlight">
         </div>
       </div>
@@ -38,14 +38,14 @@ unavaliable="error"
         id="anchor-{{i}}"
         >
           <div
-          m-bind-html="n.highlight.content"
+          ng-bind-html="trustedContent(n.highlight.content)"
           class="n-highlight">
           </div>
           <div>
             <a
             ng-if="n.highlight.link && n.highlight.link !== ''"
             class="news-link"
-            href="{{n.highlight.link}}"
+            ng-click="openLink(n.highlight.link)"
             target="_blank"
             translate="m-daily-news-read_more"
             >
@@ -105,14 +105,14 @@ unavaliable="error"
             id="anchor-{{i}}-{{j}}"
             >
     	        <span
-              m-bind-html="more.content"
+              ng-bind-html="trustedContent(more.content)"
               class="n-highlight"
               >
               </span>
               <a
               ng-if="more.link && more.link !== ''"
               class="n-link"
-              href="{{more.link}}"
+              ng-click="openLink(more.link)"
               target="_blank"
               translate="m-daily-news-read_more"
               >
