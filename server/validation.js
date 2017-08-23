@@ -15,7 +15,8 @@ module.exports = {
       valid = true;
       response = {
         data: {
-          formatedDate: date
+          formatedDate: date,
+          typeOfDate: typeof date
         }
       };
     } else {
