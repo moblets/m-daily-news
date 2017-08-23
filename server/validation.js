@@ -15,8 +15,7 @@ module.exports = {
       valid = true;
       response = {
         data: {
-          formatedDate: date,
-          typeOfDate: typeof date
+          formatedDate: date
         }
       };
     } else {
@@ -38,8 +37,14 @@ module.exports = {
  */
 function validDate(date) {
   var response = false;
-  if (Object.prototype.toString.call(date) && !isNaN(date.getTime())) {
-    response = true;
+  if (Object.prototype.toString.call(date)) {
+    if (isNaN(date.getTime())) {
+      response = false;
+    } else {
+      response = true;
+    }
+  } else {
+    response = false;
   }
   return response;
 }
