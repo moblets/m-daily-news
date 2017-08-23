@@ -18,7 +18,6 @@ module.exports = function(data) {
       news[i] = {
         id: news[i].id,
         date: news[i].formatedDate,
-        typeOfDate: news[i].typeOfDate,
         highlight: {
           content: news[i].highlight,
           used: false,
