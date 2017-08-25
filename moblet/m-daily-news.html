@@ -12,7 +12,7 @@ unavaliable="error"
     }
     </style>
     <ion-slides
-    ng-if="showTutorial"
+    ng-if="!!showTutorial"
     options="options"
     slider="data.slider"
     class="tutorial"
@@ -83,7 +83,7 @@ unavaliable="error"
                (!n.more || n.more.used === false) &&
                n.next.hide === false &&
                n.next.used === true"
-        class="from-me"
+        class="from-me show-next"
         >
           {{n.next.content}}
         </div>
@@ -92,6 +92,7 @@ unavaliable="error"
         ng-if="n.highlight.show &&
                n.more &&
                n.more.used === true"
+        class="show-more"
         >
           <div class="from-me">
             {{n.more.content}}

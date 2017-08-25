@@ -26,7 +26,7 @@ module.exports = {
     $sce,
     $q
   ) {
-    var helpers = {
+    var helper = {
       error: function(err) {
         console.error(err);
         $scope.moblet.isLoading = false;
@@ -64,54 +64,12 @@ module.exports = {
           $rootScope.$broadcast('scroll.refreshComplete');
         }, 20);
       },
-      cleanScreen: function() {
-        console.log('cleaning');
-        for (var i = 0; i < $scope.data.news.length; i++) {
-          if ($scope.data.news[i].highlight) {
-            if (i + 1 !== $scope.data.news.length ||
-            $scope.data.news[i].highlight.noNews !== true) {
-              $scope.data.news[i].highlight.used = true;
-              $scope.data.news[i].highlight.show = false;
-            }
-          }
-        }
-        $mDataLoader.saveCache($scope.moblet.instance.id, $scope.data, {
-          list: 'news'
-        });
-      },
       /**
-       * Create the clean screen contextual action (icon in header)
+       * Create the tutorial contextual action (icon in header)
        */
-      setClearContextualAction: function() {
-        $mHeaderAction.register(
-          "mDailyNewsClear",
-          {
-            ios: "ion-ios-trash",
-            android: "ion-trash-b"
-          },
-          function() {
-            console.log('clear');
-            $mAlert
-              .dialog(
-                $filter('translate')('m-daily-news-clear_history_title'),
-                $filter('translate')('m-daily-news-clear_history_content'),
-              [
-                $filter('translate')('m-daily-news-action_cancel'),
-                $filter('translate')('m-daily-news-clear_history_confirm')
-              ]
-            )
-              .then(function() {
-                console.log('clean screen');
-                helpers.cleanScreen();
-              });
-          },
-          $stateParams.pageId);
-      },
-      /**
-       * Create the clean screen contextual action (icon in header)
-       */
-      setTutorialContextualAction: function() {
-        if ($scope.remoteData.tutorial.length > 0) {
+      setTutorial: function() {
+        if (isDefined($scope.data.tutorial) &&
+            $scope.data.tutorial.length > 0) {
           $mHeaderAction.register(
           "mDailyNewsTutorial",
             {
@@ -119,7 +77,6 @@ module.exports = {
               android: "ion-help-circled"
             },
           function() {
-            console.log('tut');
             $timeout(function() {
               $scope.showTutorial = !$scope.showTutorial;
               if ($scope.showTutorial) {
@@ -147,7 +104,16 @@ module.exports = {
       }
     };
 
-    var appModel = {
+    var model = {
+      loadLocalData() {
+        var deferred = $q.defer();
+
+        var data = $mDataLoader.fromLocal($scope.moblet.instance.id);
+
+        deferred.resolve(data);
+
+        return deferred.promise;
+      },
       /**
        * Load the instance data from NoRMA and save it in $scope.remoteData
        * @return {Promise}       Return a promise
@@ -164,108 +130,141 @@ module.exports = {
 
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
-            $scope.remoteData = data;
-            deferred.resolve();
+            if (data.hasOwnProperty('noNews')) {
+              deferred.resolve(data);
+            } else {
+              deferred.reject(new Error('no response from server'));
+            }
           })
           .catch(function(err) {
-            helpers.error(err);
             deferred.reject(err);
           });
         return deferred.promise;
       },
 
-      /**
-       * Load the localStorage saved data and saves it in $scope.data
-       */
-      loadLocalData: function() {
-        $scope.data = $mDataLoader.fromLocal($scope.moblet.instance.id);
+      saveScope: function() {
+        $mDataLoader.saveCache(
+          $scope.moblet.instance.id,
+          $scope.data,
+          {
+            list: 'news'
+          });
       },
-
-      saveData: function() {
-        $mDataLoader.saveCache($scope.moblet.instance.id, $scope.data, {
-          list: 'news'
-        });
-      },
-
-      addNoNews: function() {
-        var noNews = {
-          date: $scope.data.today,
-          highlight: {
-            content: $scope.data.noNews,
-            show: true,
-            used: true,
-            noNews: true
-          }
+      cleanScope: function() {
+        var data = {
+          noNews: true
         };
-        var lastIndex = $scope.data.news.length === 0 ?
-          0 :
-          $scope.data.news.length - 1;
-
-        // No news
-        if ($scope.data.news[lastIndex] === undefined) {
-          $scope.data.news.push(noNews);
-        // Check if noNews has already been set
-        } else if ($scope.data.news[lastIndex].highlight.noNews === undefined) {
-          $scope.data.news[lastIndex].highlight.used = true;
-          $scope.data.news[lastIndex].next.used = true;
-          $scope.data.news[lastIndex].next.hide = true;
-          $scope.data.news.push(noNews);
-        }
-        appModel.saveData();
+        $mDataLoader.saveCache(
+          $scope.moblet.instance.id,
+          data,
+          {
+            list: 'news'
+          });
       },
+
+      // addNoNews: function() {
+      //   var noNews = {
+      //     date: $scope.data.today,
+      //     highlight: {
+      //       content: $scope.data.noNews,
+      //       show: true,
+      //       used: true,
+      //       noNews: true
+      //     }
+      //   };
+      //   var lastIndex = $scope.data.news.length === 0 ?
+      //     0 :
+      //     $scope.data.news.length - 1;
+      //
+      //   // No news
+      //   if ($scope.data.news[lastIndex] === undefined) {
+      //     $scope.data.news.push(noNews);
+      //   // Check if noNews has already been set
+      //   } else if ($scope.data.news[lastIndex].highlight.noNews === undefined) {
+      //     $scope.data.news[lastIndex].highlight.used = true;
+      //     $scope.data.news[lastIndex].next.used = true;
+      //     $scope.data.news[lastIndex].next.hide = true;
+      //     $scope.data.news.push(noNews);
+      //   }
+      // },
       /**
        * Concatenate "data" with the data saved in the local storage
+       * @param {Object} data   The data returned from the server
        **/
-      setScopeData: function() {
-        // Check if no local data exists
-        if ($scope.data === undefined) {
-          $scope.data = $scope.remoteData;
-
-          if ($scope.data.news.length === 0) {
-            appModel.addNoNews();
+      setScope: function(data) {
+        var saveScope = true;
+        // Store remote data on local
+        if (!isDefined($scope.data) ||
+            !isDefined($scope.data.today) ||
+            $scope.data.today !== data.today) {
+          $scope.data = data;
+          if (data.news[0].noNews) {
+            saveScope = false;
           } else {
             $scope.data.news[0].highlight.show = true;
           }
-          appModel.saveData();
-        // Local data exists. Update $scope.data
         } else {
-          $scope.data.tutorial = $scope.remoteData.tutorial;
-          $scope.data.noNews = $scope.remoteData.noNews;
-          $scope.data.today = $scope.remoteData.today;
-
-          // Check if there are news today
-          if ($scope.remoteData.news.length > 0) {
-            // Get only new remote data
-            var newRemoteData = $scope.remoteData.news
-              .filter(helpers.getNewDataFilter);
-
-            // check if any news today are really new
-            if (newRemoteData.length === 0) {
-              appModel.addNoNews();
-            } else {
-              // If the last news is a "noNews", load the next news and "click"
-              // the "show next"
-              // var lastNews = $scope.data.news[$scope.data.news.length - 1];
-              // Set the first new element to be shown
+          var newRemoteData = data.news.filter(helper.getNewDataFilter);
+          if (newRemoteData.length > 0) {
+            var lastIndex = $scope.data.news.length - 1;
+            if ($scope.data.news[lastIndex].highlight.show === true) {
               newRemoteData[0].highlight.show = true;
-              for (var i = 0; i < newRemoteData.length; i++) {
-                $scope.data.news.push(newRemoteData[i]);
-              }
-              appModel.saveData();
             }
-          } else {
-            appModel.addNoNews();
+            for (var j = 0; j < newRemoteData.length; j++) {
+              $scope.data.news.push(newRemoteData[j]);
+            }
           }
         }
+
+        if (saveScope) {
+          model.saveScope();
+        } else {
+          model.cleanScope();
+        }
+        // Local data exists. Update $scope.data
+        // } else {
+        //   $scope.data.tutorial = $scope.remoteData.tutorial;
+        //   $scope.data.noNews = $scope.remoteData.noNews;
+        //   $scope.data.today = $scope.remoteData.today;
+        //
+        //   // Check if there are news today
+        //   if ($scope.remoteData.news.length > 0) {
+        //     // Get only new remote data
+        //     var newRemoteData = $scope.remoteData.news
+        //       .filter(helper.getNewDataFilter);
+        //
+        //     // check if any news today are really new
+        //     if (newRemoteData.length === 0) {
+        //       model.addNoNews();
+        //     } else {
+        //       // If the last news is a "noNews", load the next news and "click"
+        //       // the "show next"
+        //       // var lastNews = $scope.data.news[$scope.data.news.length - 1];
+        //       // Set the first new element to be shown
+        //       newRemoteData[0].highlight.show = true;
+        //       for (var i = 0; i < newRemoteData.length; i++) {
+        //         $scope.data.news.push(newRemoteData[i]);
+        //       }
+        //       model.saveScope();
+        //     }
+        //   } else {
+        //     model.addNoNews();
+        //   }
+        // }
       }
     };
 
-    var newsConstroller = {
+    var controller = {
+      /**
+       * Create the $scope for the view
+       * @param  {Object} data The response from the server
+       */
       showView: function() {
-        appModel.setScopeData();
+        helper.setTutorial();
+
         // Put functions in the $scope
-        $scope.readMore = newsConstroller.readMore;
-        $scope.showNext = newsConstroller.showNext;
+        $scope.readMore = controller.readMore;
+        $scope.showNext = controller.showNext;
 
         // Set error and noContent to false
         $scope.moblet.noContent = false;
@@ -281,15 +280,15 @@ module.exports = {
 
       readMore: function(i) {
         $scope.data.news[i].more.used = true;
-        appModel.saveData();
-        helpers.scrollTo(i, 0);
+        // model.saveScope();
+        helper.scrollTo(i, 0);
       },
 
       showNext: function(i) {
         $scope.data.news[i].next.used = true;
         $scope.data.news[i + 1].highlight.show = true;
-        appModel.saveData();
-        helpers.scrollTo(i + 1);
+        // model.saveScope();
+        helper.scrollTo(i + 1);
       }
     };
 
@@ -304,31 +303,35 @@ module.exports = {
       $scope.bgColor = $mTheme.colors.secundary;
 
       // Put functions in the $scope
-      $scope.trustedContent = helpers.trustedContent;
-      $scope.openLink = helpers.openLink;
+      $scope.trustedContent = helper.trustedContent;
+      $scope.openLink = helper.openLink;
 
       // Pause the video when leaving the view
       $scope.$on('$stateChangeStart', function() {
         $scope.pauseVideo();
       });
 
-      // Load the local data
-      appModel.loadLocalData();
-
-      // Add the contextual buttons
-      helpers.setClearContextualAction();
-
       // Load the remote data
-      appModel.loadRemoteData(false)
+      model
+        .loadLocalData()
+        .then(function(data) {
+          console.info('local');
+          console.info(data);
+          $scope.data = data;
+        })
         .then(function() {
-          // Add the contextual buttons
-          $scope.showTutorial = false;
-          helpers.setTutorialContextualAction();
-
-          newsConstroller.showView();
+          return model.loadRemoteData();
+        })
+        .then(function(data) {
+          console.info('remote');
+          console.info(data);
+          model.setScope(data);
+        })
+        .then(function() {
+          controller.showView();
         })
         .catch(function(err) {
-          helpers.error(err);
+          helper.error(err);
         });
     };
 

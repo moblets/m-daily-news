@@ -1,11 +1,9 @@
 module.exports = function(data) {
-  var spDate = new Date().toLocaleString(
-    'en-US',
-    {
-      timeZone: 'America/Sao_Paulo'
-    });
-  var today = new Date(spDate.split(',')[0] + ' 00:00:00 GMT-0000');
-  data.today = today;
+  var spTimeString = new Date().toLocaleString(
+    'en-US', {timeZone: 'America/Sao_Paulo'}
+  );
+  data.today = new Date(spTimeString);
+  data.today.setHours(0, 0, 0, 0);
 
   data.showWelcome = true;
 
@@ -14,13 +12,16 @@ module.exports = function(data) {
     var date = new Date(news[i].formatedDate);
 
     // Only send news for today
-    if (date.getTime() === today.getTime()) {
+    if (date.getTime() === data.today.getTime()) {
       news[i] = {
         id: news[i].id,
-        date: news[i].formatedDate,
+        // TODO delete
+        date: date,
         highlight: {
           content: news[i].highlight,
+          // TODO delete
           used: false,
+          // TODO delete
           show: false,
           link: news[i].link
         },
@@ -48,7 +49,9 @@ module.exports = function(data) {
         },
         next: {
           content: news[i].next,
+          // TODO delete
           used: false,
+          // TODO delete
           hide: false
         }
       };
@@ -67,7 +70,20 @@ module.exports = function(data) {
     }
   }
 
-  if (data.tutorialImages.length > 0) {
+  if (data.news.length === 0) {
+    var noNews = {
+      date: data.today,
+      noNews: true,
+      highlight: {
+        content: data.noNews,
+        show: true,
+        used: true
+      }
+    };
+    data.news.push(noNews);
+  }
+
+  if (data.tutorialImages !== undefined && data.tutorialImages.length > 0) {
     data.tutorial = data.tutorialImages.split('\n');
     delete data.tutorialImages;
   }
