@@ -24,9 +24,9 @@ unavaliable="error"
     <div class="news" ng-if="!showTutorial">
       <div
       class="from-them"
+      ng-if="data.showWelcome"
       >
         <div
-        ng-if="data.showWelcome"
         ng-bind-html="trustedContent(data.welcome)"
         class="n-highlight">
         </div>

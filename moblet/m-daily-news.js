@@ -161,32 +161,6 @@ module.exports = {
             list: 'news'
           });
       },
-
-      // addNoNews: function() {
-      //   var noNews = {
-      //     date: $scope.data.today,
-      //     highlight: {
-      //       content: $scope.data.noNews,
-      //       show: true,
-      //       used: true,
-      //       noNews: true
-      //     }
-      //   };
-      //   var lastIndex = $scope.data.news.length === 0 ?
-      //     0 :
-      //     $scope.data.news.length - 1;
-      //
-      //   // No news
-      //   if ($scope.data.news[lastIndex] === undefined) {
-      //     $scope.data.news.push(noNews);
-      //   // Check if noNews has already been set
-      //   } else if ($scope.data.news[lastIndex].highlight.noNews === undefined) {
-      //     $scope.data.news[lastIndex].highlight.used = true;
-      //     $scope.data.news[lastIndex].next.used = true;
-      //     $scope.data.news[lastIndex].next.hide = true;
-      //     $scope.data.news.push(noNews);
-      //   }
-      // },
       /**
        * Concatenate "data" with the data saved in the local storage
        * @param {Object} data   The data returned from the server
@@ -197,6 +171,8 @@ module.exports = {
         if (!isDefined($scope.data) ||
             !isDefined($scope.data.today) ||
             $scope.data.today !== data.today) {
+          // Show welcome message for first visit only
+          data.showWelcome = !isDefined($scope.data);
           $scope.data = data;
           if (data.news[0].noNews) {
             saveScope = false;
@@ -204,10 +180,12 @@ module.exports = {
             $scope.data.news[0].highlight.show = true;
           }
         } else {
+          $scope.data.showWelcome = false;
           var newRemoteData = data.news.filter(helper.getNewDataFilter);
+          // NEW TODO remove news that were removed from server
           if (newRemoteData.length > 0) {
             var lastIndex = $scope.data.news.length - 1;
-            if ($scope.data.news[lastIndex].highlight.show === true) {
+            if ($scope.data.news[lastIndex].highlight.used) {
               newRemoteData[0].highlight.show = true;
             }
             for (var j = 0; j < newRemoteData.length; j++) {
@@ -221,36 +199,6 @@ module.exports = {
         } else {
           model.cleanScope();
         }
-        // Local data exists. Update $scope.data
-        // } else {
-        //   $scope.data.tutorial = $scope.remoteData.tutorial;
-        //   $scope.data.noNews = $scope.remoteData.noNews;
-        //   $scope.data.today = $scope.remoteData.today;
-        //
-        //   // Check if there are news today
-        //   if ($scope.remoteData.news.length > 0) {
-        //     // Get only new remote data
-        //     var newRemoteData = $scope.remoteData.news
-        //       .filter(helper.getNewDataFilter);
-        //
-        //     // check if any news today are really new
-        //     if (newRemoteData.length === 0) {
-        //       model.addNoNews();
-        //     } else {
-        //       // If the last news is a "noNews", load the next news and "click"
-        //       // the "show next"
-        //       // var lastNews = $scope.data.news[$scope.data.news.length - 1];
-        //       // Set the first new element to be shown
-        //       newRemoteData[0].highlight.show = true;
-        //       for (var i = 0; i < newRemoteData.length; i++) {
-        //         $scope.data.news.push(newRemoteData[i]);
-        //       }
-        //       model.saveScope();
-        //     }
-        //   } else {
-        //     model.addNoNews();
-        //   }
-        // }
       }
     };
 
@@ -261,10 +209,6 @@ module.exports = {
        */
       showView: function() {
         helper.setTutorial();
-
-        // Put functions in the $scope
-        $scope.readMore = controller.readMore;
-        $scope.showNext = controller.showNext;
 
         // Set error and noContent to false
         $scope.moblet.noContent = false;
@@ -280,14 +224,14 @@ module.exports = {
 
       readMore: function(i) {
         $scope.data.news[i].more.used = true;
-        // model.saveScope();
+        model.saveScope();
         helper.scrollTo(i, 0);
       },
 
       showNext: function(i) {
         $scope.data.news[i].next.used = true;
         $scope.data.news[i + 1].highlight.show = true;
-        // model.saveScope();
+        model.saveScope();
         helper.scrollTo(i + 1);
       }
     };
@@ -305,6 +249,8 @@ module.exports = {
       // Put functions in the $scope
       $scope.trustedContent = helper.trustedContent;
       $scope.openLink = helper.openLink;
+      $scope.readMore = controller.readMore;
+      $scope.showNext = controller.showNext;
 
       // Pause the video when leaving the view
       $scope.$on('$stateChangeStart', function() {

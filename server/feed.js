@@ -2,6 +2,10 @@ module.exports = function(data) {
   var spTimeString = new Date().toLocaleString(
     'en-US', {timeZone: 'America/Sao_Paulo'}
   );
+  // FIX TODO test other dates
+  // spTimeString = '8/27/2017, 10:14:55 AM';
+  // FIX
+  // console.log(spTimeString);
   data.today = new Date(spTimeString);
   data.today.setHours(0, 0, 0, 0);
 
@@ -15,13 +19,11 @@ module.exports = function(data) {
     if (date.getTime() === data.today.getTime()) {
       news[i] = {
         id: news[i].id,
-        // TODO delete
+        // NEW TODO delete in a future version
         date: date,
         highlight: {
           content: news[i].highlight,
-          // TODO delete
           used: false,
-          // TODO delete
           show: false,
           link: news[i].link
         },
@@ -49,9 +51,7 @@ module.exports = function(data) {
         },
         next: {
           content: news[i].next,
-          // TODO delete
           used: false,
-          // TODO delete
           hide: false
         }
       };
