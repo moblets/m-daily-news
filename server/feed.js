@@ -10,7 +10,7 @@ module.exports = function(data) {
   data.today.setHours(0, 0, 0, 0);
   var todayDay = data.today.getDate() + '-' + data.today.getMonth() + '-' +
   data.today.getFullYear();
-
+  data.todayDay = todayDay;
   data.showWelcome = true;
 
   var news = data.news;
