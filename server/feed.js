@@ -12,6 +12,7 @@ module.exports = function(data) {
   data.today.getFullYear();
   data.todayDay = todayDay;
   data.showWelcome = true;
+  data.errorDates = [];
 
   var news = data.news;
   for (var i = news.length - 1; i >= 0; i--) {
@@ -73,6 +74,7 @@ module.exports = function(data) {
       }
     } else {
       news.splice([i], 1);
+      data.errorDates.push(dateDay);
     }
   }
 
