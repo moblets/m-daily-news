@@ -15,8 +15,12 @@ module.exports = function(data) {
   for (var i = news.length - 1; i >= 0; i--) {
     var date = new Date(news[i].formatedDate);
 
+    var dateDay = date.getDate() + '-' + date.getMonth() + '-' +
+                  date.getFullYear();
+    var todayDay = data.today.getDate() + '-' + data.today.getMonth() + '-' +
+                  data.today.getFullYear();
     // Only send news for today
-    if (date.getTime() === data.today.getTime()) {
+    if (dateDay === todayDay) {
       news[i] = {
         id: news[i].id,
         // NEW TODO delete in a future version
