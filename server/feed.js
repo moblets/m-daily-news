@@ -1,33 +1,24 @@
 module.exports = function(data) {
-  var spTimeString = new Date().toLocaleString(
-    'en-US', {timeZone: 'America/Sao_Paulo'}
-  );
-  // FIX TODO test other dates
-  // spTimeString = '8/27/2017, 10:14:55 AM';
-  // FIX
-  // console.log(spTimeString);
-  data.today = new Date(spTimeString);
-  data.today.setHours(0, 0, 0, 0);
-  var todayDay = data.today.getDate() + '-' + data.today.getMonth() + '-' +
-  data.today.getFullYear();
-  data.todayDay = todayDay;
-  data.showWelcome = true;
-  data.errorDates = [];
+  // Fix date on São Paulo timezone
+  var spDate = new Date().toLocaleString(
+  'en-US',
+    {
+      timeZone: 'America/Sao_Paulo'
+    });
+  var today = new Date(spDate.split(',')[0] + ' 00:00:00 GMT-0000')
+    .toISOString();
 
   var news = data.news;
   for (var i = news.length - 1; i >= 0; i--) {
-    var date = new Date(news[i].formatedDate);
-
-    var dateDay = date.getDate() + '-' + date.getMonth() + '-' +
-                  date.getFullYear();
+    var date = new Date(news[i].formatedDate).toISOString();
+    // DEBUG
+    // console.log(today, date);
     // Only send news for today
-    if (dateDay === todayDay) {
+    if (date === today) {
       news[i] = {
         id: news[i].id,
         // NEW TODO delete in a future version
         date: date,
-        testDate: dateDay,
-        testToday: todayDay,
         highlight: {
           content: news[i].highlight,
           used: false,
@@ -74,14 +65,12 @@ module.exports = function(data) {
       }
     } else {
       news.splice([i], 1);
-      data.errorDates.push(dateDay);
     }
   }
 
   if (data.news.length === 0) {
     var noNews = {
       date: data.today,
-      todayDay: todayDay,
       noNews: true,
       highlight: {
         content: data.noNews,
@@ -96,6 +85,8 @@ module.exports = function(data) {
     data.tutorial = data.tutorialImages.split('\n');
     delete data.tutorialImages;
   }
+
+  data.showWelcome = true;
 
   return data;
 };
