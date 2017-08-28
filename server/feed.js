@@ -8,6 +8,8 @@ module.exports = function(data) {
   // console.log(spTimeString);
   data.today = new Date(spTimeString);
   data.today.setHours(0, 0, 0, 0);
+  var todayDay = data.today.getDate() + '-' + data.today.getMonth() + '-' +
+  data.today.getFullYear();
 
   data.showWelcome = true;
 
@@ -17,8 +19,6 @@ module.exports = function(data) {
 
     var dateDay = date.getDate() + '-' + date.getMonth() + '-' +
                   date.getFullYear();
-    var todayDay = data.today.getDate() + '-' + data.today.getMonth() + '-' +
-                  data.today.getFullYear();
     // Only send news for today
     if (dateDay === todayDay) {
       news[i] = {
@@ -79,6 +79,7 @@ module.exports = function(data) {
   if (data.news.length === 0) {
     var noNews = {
       date: data.today,
+      todayDay: todayDay,
       noNews: true,
       highlight: {
         content: data.noNews,
