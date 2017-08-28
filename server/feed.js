@@ -25,6 +25,8 @@ module.exports = function(data) {
         id: news[i].id,
         // NEW TODO delete in a future version
         date: date,
+        testDate: dateDay,
+        testToday: todayDay,
         highlight: {
           content: news[i].highlight,
           used: false,
